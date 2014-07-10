@@ -4,7 +4,6 @@ Currently has migrated code from master branch on https://bitbucket.org/schan93n
 
 **Useful commands**
 
-For npm install errors: "npm cache clean", "bower cache clean"\n
+For npm install errors: "npm cache clean", "bower cache clean"
 
-For deleting node_modules folder on Windows (*Do this in command prompt): mkdir junk
-robocopy junk node_modules /MIR
+For deleting node_modules folder on Windows (*Do this in command prompt): "mkdir junk" and then "robocopy junk node_modules /MIR"
