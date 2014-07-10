@@ -1,0 +1,11 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container" ng-controller="ListviewCtrl">
+    <div 
+        data-listview=""
+        data-template="app/listview/listview-src.html"
+        data-items="items"
+        data-columns="title, date, filesize, dimension, tags"
+        data-methods="listview.methods">
+    </div>
+</div>
