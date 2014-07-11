@@ -3,13 +3,13 @@
 angular.module('goApp')
   .controller('ListviewCtrl', function ($scope) {
   //Retrieving data
-  $http.get('/api/list/retrieve')
-    .success(function(data){
-      $scope.items = data;
-    })
-    .error(function(data){
-      console.log(data);
-    });
+  // $http.get('/api/list/retrieve')
+  //   .success(function(data){
+  //     $scope.items = data;
+  //   })
+  //   .error(function(data){
+  //     console.log(data);
+  //   });
    //has not been made yet
 
     $scope.items = [

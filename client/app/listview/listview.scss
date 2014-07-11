@@ -1,3 +1,16 @@
+body {
+  color: #444;
+}
+.tag {
+  position: relative;
+  background-color: #DAE6F5;
+  display: inline-block;
+  margin: 5px;
+  padding: 0px 8px;
+  border-radius: 3px;
+  border: 1px solid #bbb;
+}
+
 div[data-listview] table {
   max-width: 100%;
   background-color: transparent;
