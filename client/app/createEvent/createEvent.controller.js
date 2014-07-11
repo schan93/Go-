@@ -14,6 +14,8 @@ angular.module('goApp')
     $scope.test = "";
 
     $scope.createEvent = function(){
-
+      $http.post('/api/user/createEvent', data).success(function(){
+        $location.path("/");
+      });
     }
   });
