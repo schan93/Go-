@@ -120,6 +120,15 @@ angular.module('goApp')
       },
 
       /**
+       * Check if a user is a normal user
+       *
+       * @return {Boolean}
+       */
+      isUser: function() {
+        return currentUser.role === 'user';
+      },
+
+      /**
        * Get auth token
        */
       getToken: function() {
