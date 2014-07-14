@@ -1,21 +1,22 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('CreateEventCtrl', function ($scope) {
-    $scope.time = {
+  .controller('CreateEventCtrl', function ($scope, $http, $location) {
+
+    $scope.event = {
       'startDate': "",
       'endDate': "",
       'startTime': "",
-      'endTime': ""
+      'endTime': "",
+      'eventLocation': "",
+      'eventName': "",
     };
 
-    $scope.eventLocation = "";
-    $scope.eventName = "";
-    $scope.test = "";
-
-    $scope.createEvent = function(){
-      $http.post('/api/user/createEvent', data).success(function(){
-        $location.path("/");
+    $scope.create = function(){
+      $http.post('/api/event', $scope.event).
+      success(function(data){
+        $location.path('/');
       });
-    }
+    };
+
   });

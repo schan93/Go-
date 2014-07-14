@@ -1,16 +1,18 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('ListviewCtrl', function ($scope) {
-  //Retrieving data
-  // $http.get('/api/list/retrieve')
-  //   .success(function(data){
-  //     $scope.items = data;
-  //   })
-  //   .error(function(data){
-  //     console.log(data);
-  //   });
-   //has not been made yet
+  .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory) {
+
+   $scope.events = [];
+
+    $scope.event = {
+      'startDate': "",
+      'endDate': "",
+      'startTime': "",
+      'endTime': "",
+      'eventLocation': "",
+      'eventName': "",
+    };
 
     $scope.items = [
       {
@@ -84,9 +86,29 @@ angular.module('goApp')
     
     $scope.listview = {};
     $scope.listview.methods = {
-      date: formatDate,
-      filesize: humanFileSize,
-      dimension: formatDimension,
-      thumb: thumb,
+      startDate: formatDate,
+      endDate: formatDate,
+      //filesize: humanFileSize,
+      //dimension: formatDimension,
+      thumb: thumb
     };
+
+
+    $scope.teststuff = [];
+
+    listviewFactory.getEvents().then(function (events){
+      $scope.teststuff = events;
+      console.log("List view:" + events + " Test stuff: " + JSON.stringify($scope.teststuff, null, 4));
+      }, function(error){ 
+        console.error(error);
+      });
+
+  //Grabbing information from database to display in listview
+  /*  $scope.retrieveEvent = function(){
+      $http.get('/api/event/' + $routeParams.id).
+      success(function(data){
+        $scope.event = data.event;
+      });
+    };*/
+
   });
