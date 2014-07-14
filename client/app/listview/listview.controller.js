@@ -2,47 +2,44 @@
 
 angular.module('goApp')
   .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory) {
+    // $scope.event = {
+    //   'startDate': "",
+    //   'endDate': "",
+    //   'startTime': "",
+    //   'endTime': "",
+    //   'eventLocation': "",
+    //   'eventName': "",
+    // };
 
-   $scope.events = [];
-
-    $scope.event = {
-      'startDate': "",
-      'endDate': "",
-      'startTime': "",
-      'endTime': "",
-      'eventLocation': "",
-      'eventName': "",
-    };
-
-    $scope.items = [
-      {
-        title: 'title1',
-        date: new Date(),
-        filesize: '45678',
-        width: '400',
-        height: '600',
-        tags: ['wedding','travel'],
-        thumb: 'cover1.jpg'
-      },
-      {
-        title: 'title2',
-        date: new Date(),
-        filesize: '1567802',
-        width: '300',
-        height: '500',
-        tags: ['wedding'],
-        thumb: 'cover2.jpg'
-      },
-      {
-        title: 'title3',
-        date: new Date(),
-        filesize: '4567822',
-        width: '400',
-        height: '500',
-        tags: ['travel', 'family'],
-        thumb: 'cover3.jpg'
-      }
-    ];
+    // $scope.items = [
+    //   {
+    //     title: 'title1',
+    //     date: new Date(),
+    //     filesize: '45678',
+    //     width: '400',
+    //     height: '600',
+    //     tags: ['wedding','travel'],
+    //     thumb: 'cover1.jpg'
+    //   },
+    //   {
+    //     title: 'title2',
+    //     date: new Date(),
+    //     filesize: '1567802',
+    //     width: '300',
+    //     height: '500',
+    //     tags: ['wedding'],
+    //     thumb: 'cover2.jpg'
+    //   },
+    //   {
+    //     title: 'title3',
+    //     date: new Date(),
+    //     filesize: '4567822',
+    //     width: '400',
+    //     height: '500',
+    //     tags: ['travel', 'family'],
+    //     thumb: 'cover3.jpg'
+    //   }
+    // ];
   
     function humanFileSize(bytes, si) {
       var thresh = si ? 1000 : 1024;
@@ -86,29 +83,25 @@ angular.module('goApp')
     
     $scope.listview = {};
     $scope.listview.methods = {
-      startDate: formatDate,
-      endDate: formatDate,
+      //startDate: formatDate,
+      //endDate: formatDate,
       //filesize: humanFileSize,
       //dimension: formatDimension,
       thumb: thumb
     };
 
+    $scope.events = [];
 
-    $scope.teststuff = [];
-
-    listviewFactory.getEvents().then(function (events){
-      $scope.teststuff = events;
-      console.log("List view:" + events + " Test stuff: " + JSON.stringify($scope.teststuff, null, 4));
-      }, function(error){ 
-        console.error(error);
+    // Get list of events
+    $http.get('/api/events')
+      .success(function(data, status, headers, config) {
+        $scope.events = data;
       });
 
-  //Grabbing information from database to display in listview
-  /*  $scope.retrieveEvent = function(){
-      $http.get('/api/event/' + $routeParams.id).
-      success(function(data){
-        $scope.event = data.event;
-      });
-    };*/
-
+    // listviewFactory.getEvents().then(function (events){
+    //   $scope.teststuff = events;
+    //   console.log("List view:" + events + " Test stuff: " + JSON.stringify($scope.teststuff, null, 4));
+    //   }, function(error){ 
+    //     console.error(error);
+    //   });
   });

@@ -3,7 +3,7 @@
 angular.module('goApp')
   .controller('CreateEventCtrl', function ($scope, $http, $location) {
 
-    $scope.event = {
+    $scope.eventObj = {
       'startDate': "",
       'endDate': "",
       'startTime': "",
@@ -13,7 +13,7 @@ angular.module('goApp')
     };
 
     $scope.create = function(){
-      $http.post('/api/event', $scope.event).
+      $http.post('/api/events', $scope.eventObj).
       success(function(data){
         $location.path('/');
       });

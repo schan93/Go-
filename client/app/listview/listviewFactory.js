@@ -5,7 +5,7 @@ angular.module('goApp')
     return {
       getEvents: function () {
         var deferred = $q.defer(),
-          httpPromise = $http.get('/api/event');
+          httpPromise = $http.get('/api/events');
  
         httpPromise.success(function (events) {
           deferred.resolve(events);
