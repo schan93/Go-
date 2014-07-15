@@ -5,7 +5,8 @@ angular.module('goApp', [
   'ngResource',
   'ngSanitize',
   'ui.bootstrap',
-  'ngRoute'
+  'ngRoute',
+  'ui.map'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
