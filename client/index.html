@@ -20,11 +20,6 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
-    <script>
-      function onGoogleReady() {
-        angular.bootstrap(document.getElementById("goApp"), ['goApp']);
-      }
-    </script>
   </head>
   <body id="goApp">
     <!--[if lt IE 7]>
@@ -43,6 +38,12 @@
 
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');
+    </script>
+
+    <script>
+      function onGoogleReady() {
+        angular.bootstrap(document.getElementById("goApp"), ['goApp']);
+      }
     </script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=onGoogleReady"></script>
