@@ -11,7 +11,7 @@
             
               <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name" popover="Enter the desired event name." popover-trigger="focus" popover-title="Event Name" popover="mouseenter">
+              <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name" data-placement="top" data-content="Enter the desired event name." data-trigger="focus" data-animation="am-flip-x" data-title="Event Name" bs-popover>
         </div>
       </div>
 
@@ -30,7 +30,7 @@
               <div class="input-group">
                   <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
               <input type="date" class="form-control" name="endDate" ng-model="eventObj.endDate" placeholder="End Date">
-              <input type="text" class="form-control" name="startTime" ng-model="eventObj.endTime" placeholder="EndTime">
+              <input type="text" class="form-control" name="startTime" ng-model="eventObj.endTime" placeholder="End Time">
         </div>
       </div>
 

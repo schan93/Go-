@@ -1,10 +1,5 @@
 'use strict';
 
-function initCall() {
- console.log("Google maps api initialized.");
-   angular.bootstrap(document.getElementById("goApp"), ['goApp']);
-}
-
 angular.module('goApp')
   .controller('FindEventCtrl', function ($scope) {
     $scope.location = '';

@@ -1,12 +1,13 @@
 'use strict';
 
 angular.module('goApp', [
+  'ngAnimate',
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ui.bootstrap',
   'ngRoute',
-  'ui.map'
+  //'ui.bootstrap',
+  'mgcrea.ngStrap'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

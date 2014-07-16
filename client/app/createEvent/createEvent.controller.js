@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('goApp', ['mgcrea.ngStrapDocs'])
+angular.module('goApp')
   .controller('CreateEventCtrl', function ($scope, $http, $location) {
 
     $scope.eventObj = {
