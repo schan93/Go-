@@ -1,59 +1,53 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
+<link type="createEvent.scss" rel="stylesheet" href="/app/createEvent/createEvent.scss" />
+
+<legend>Create Event</legend>
 
 <div class="container" ng-controller="CreateEventCtrl">
-  <div class="row">
-    <div class="col-md-6">
-      <form name="event" role="form">
-        <div class="form-group">
-          <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name">
-          <!--<span ng-show="event.eventName.$dirty && event.eventName.$error.required">Required!</span> -->
+      <form class="contact-us form-horizontal" method="post">
+        <fieldset>
+        <div class="form-group has-*">
+          <label class="control-label">Event Name</label>
+            
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name" popover="Enter the desired event name." popover-trigger="focus" popover-title="Event Name" popover="mouseenter">
         </div>
-        <div class="form-inline">
-          <input type="date" class="form-control" name="startDate" ng-model="eventObj.startDate" placeholder="Date"/>
-          <!--  <span ng-show="event.startDate.$dirty && event.startDate.$error.date">Not a valname date</span> -->
-          <input type="time" class="form-control" name="startTime" ng-model="eventObj.startTime" placeholder="Start Time"/>
-          <!--  <span ng-show="event.startTime.$dirty">Not a valname time</span>-->
-        </div>
-        <div class="form-inline">
-          <input type="date" class="form-control" name="endDate" ng-model="eventObj.endDate" placeholder="Date"/>
-          <span ng-show="event.endDate.$dirty && event.endDate.$error.date">Not a date</span>
-          <input type="time" class="form-control" name="endTime" ng-model="eventObj.endTime" placeholder="End Time"/>
-          <!--  <span ng-show="event.endTime.$dirty">Not a valname time</span>-->
-        </div>
-        <br/>
-        <div class="form-group">
-          <input type="text" class="form-control" name="eventLocation" ng-model="eventObj.eventLocation" placeholder="Location">
-          <!--<span ng-show="event.eventLocation.$dirty">Not a location</span> -->
-        </div>
-        <div>
-          <button ng-disabled="event.$invalid" ng-click="create()">Update</button>
-        </div>
-      </form>
-    </div>
-    <div class="col-md-6" style="vertical-align:top">
-      <div>
-        <h4>Preview</h4>
       </div>
-      <p>
-        <table>
-          <tr>
-            <td>Event Name:</td>
-            <td>{{eventObj.eventName}}</td>
-          </tr>
-          <tr>
-            <td>Dates:</td>
-            <td>{{eventObj.startDate}} - {{eventObj.endDate}}</td>
-          </tr>
-          <tr>
-            <td>Times: </td>
-            <td>{{eventObj.startTime}} - {{eventObj.endTime}}</td>
-          </tr>
-          <tr>
-            <td>Location:</td>
-            <td>{{eventObj.eventLocation}}</td>
-          </tr>
-        </table>
-      </p>
+
+        <div class="form-group has-*">
+          <label class="control-label">Event Start Date</label>
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+              <input type="date" class="form-control  " name="startDate" ng-model="eventObj.startDate" placeholder="Start Date">
+              <input type="text" class="form-control" name="startTime" ng-model="eventObj.startTime" placeholder="Start Time">
+        </div>
+      </div>
+
+      <div class="form-group has-*">
+          <label class="control-label">Event End Date</label>
+            
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+              <input type="date" class="form-control" name="endDate" ng-model="eventObj.endDate" placeholder="End Date">
+              <input type="text" class="form-control" name="startTime" ng-model="eventObj.endTime" placeholder="EndTime">
+        </div>
+      </div>
+
+
+        <div class="form-group has-*">
+          <label class="control-label">Event Location</label>
+            
+              <div class="input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+              <input type="text" class="form-control" name="eventLocation" ng-model="eventObj.eventLocation" placeholder="Location">
+        </div>
+      </div>
+
+    <div class="form-group has-*">
+      <button type="submit" class="btn btn-primary" ng-click="create()">Submit</button>
     </div>
-  </div>
+
+    </fieldset>
+  </form>
 </div>

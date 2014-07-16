@@ -40,13 +40,11 @@
        ga('send', 'pageview');
     </script>
 
-    <script>
-      function onGoogleReady() {
-        angular.bootstrap(document.getElementById("goApp"), ['goApp']);
-      }
-    </script>
+
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&callback=onGoogleReady"></script>
+
+
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -66,8 +64,11 @@
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-utils/ui-utils.js"></script>
       <script src="bower_components/angular-ui-map/ui-map.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.min.js"></script>
+      <script src="bower_components/angular-strap/dist/angular-strap.tpl.min.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+
 
         <!-- build:js({.tmp,client}) app/app.js -->
         <script src="app/app.js"></script>
@@ -82,6 +83,8 @@
           <script src="app/contacts/contacts.js"></script>
           <script src="app/createEvent/createEvent.controller.js"></script>
           <script src="app/createEvent/createEvent.js"></script>
+          <script src="app/findEvent/client/bower_components/angularjs-google-maps/dist/angularjs-google-maps.js"></script>
+          <script src="app/findEvent/client/bower_components/angularjs-google-maps/dist/angularjs-google-maps.min.js"></script>
           <script src="app/findEvent/findEvent.controller.js"></script>
           <script src="app/findEvent/findEvent.js"></script>
           <script src="app/listview/listview.controller.js"></script>
@@ -95,5 +98,13 @@
           <script src="components/navbar/navbar.controller.js"></script>
           <!-- endinjector -->
         <!-- endbuild -->
+
+        
+    <script>
+      function onGoogleReady() {
+        angular.bootstrap(document.getElementById("goApp"), ['goApp']);
+      }
+    </script>
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('goApp')
+angular.module('goApp', ['mgcrea.ngStrapDocs'])
   .controller('CreateEventCtrl', function ($scope, $http, $location) {
 
     $scope.eventObj = {
@@ -19,4 +19,10 @@ angular.module('goApp')
       });
     };
 
-  });
+$scope.popover = {
+  "title": "Title",
+  "content": "Hello Popover<br />This is a multiline message!"
+};
+
+});
+
