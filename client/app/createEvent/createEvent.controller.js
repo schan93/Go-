@@ -6,10 +6,8 @@ angular.module('goApp')
     $scope.eventObj = {
       'startDate': "",
       'endDate': "",
-      'startTime': "",
-      'endTime': "",
       'eventLocation': "",
-      'eventName': "",
+      'eventName': ""
     };
 
     $scope.create = function(){
@@ -19,10 +17,30 @@ angular.module('goApp')
       });
     };
 
-$scope.popover = {
-  "title": "Title",
-  "content": "Hello Popover<br />This is a multiline message!"
+$scope.eventName = {
+  "title": "Event Name",
+  "content": "e.g. Joe's Surprise Party"
 };
+$scope.startDate = {
+  "title": "Start Date",
+  "content": "e.g. 7/17/14"
+};
+$scope.startTime = {
+  "title": "Start Time",
+  "content": "e.g. 1:00 P.M."
+};
+$scope.endDate = {
+  "title": "End Date",
+  "content": "e.g. 7/17/14"
+};
+$scope.endTime = {
+  "title": "End Time",
+  "content": "e.g. 8:00 P.M."
+};
+$scope.locationName = {
+  "title": "Location",
+  "content": "e.g. 123 Madeup Street"
+}
 
 });
 

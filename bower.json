@@ -16,13 +16,15 @@
     "font-awesome": ">=4.1.0",
     "lodash": "~2.4.1",
     "angular-strap": "2.0.0",
-    "angular-motion": "~0.3.3"
+    "angular-motion": "~0.3.3",
+    "smalot-bootstrap-datetimepicker": "2.3.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
     "angular-scenario": ">=1.2.*"
   },
   "resolutions": {
-    "angular": "1.2.20"
+    "angular": "1.2.20",
+    "smalot-bootstrap-datetimepicker": "2.3.0"
   }
 }

@@ -7,8 +7,7 @@ angular.module('goApp', [
   'ngSanitize',
   'ngRoute',
   //'ui.bootstrap',
-  'mgcrea.ngStrap'
-])
+  'mgcrea.ngStrap'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({
