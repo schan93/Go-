@@ -5,7 +5,7 @@
         data-listview=""
         data-template="listview.html"
         data-items="events"
-        data-columns="eventName, startDate, endDate, startTime, endTime, eventLocation, tags"
+        data-columns="eventName, startDate, endDate, eventLocation, tags"
         data-methods="listview.methods">
     </div>
 </div>
@@ -15,20 +15,23 @@
   <table class="table">
     <thead>
       <tr>
-        <th ng-repeat="column in columns">
+        <th ng-repeat="column in columns" ng-show="visible.hideEvents">
           {{column | capitalize}}
         </th>
       </tr>
 
     </thead>
     <tbody>
-      <tr ng-repeat="item in items" class="item">
+      <tr ng-repeat="item in items" class="item" ng-click="openEventInformation()" ng-show="visible.hideEvents">
         <td ng-repeat="column in columns" class="column column-{{column}}" ng-include="getTemplate(column)"></td>
       </tr>
     </tbody>
   </table>
 </div>
+<div ng-show="visible.showInformation" ng-include src="app/listview/eventInformation.html"></div>
 </script>
+
+<!--<-->
 
 <!-- default -->
 <script type="text/ng-template" id="column-default.html">

@@ -2,9 +2,9 @@
 
 angular.module('goApp')
   .controller('CreateEventCtrl', function ($scope, $http, $location) {
+
     $scope.location = "";
-    $scope.location2 = "";
-    $scope.dummyLocation = "";
+    $scope.place ="";
     $scope.eventObj = {
       'startDate': "",
       'endDate': "",
@@ -12,14 +12,9 @@ angular.module('goApp')
       'eventName': ""
     };
     $scope.create = function(){
-      console.log("$scope.location:", $scope.location);
-
-      console.log("$scope.dummy", $scope.dummyLocation);
-      if($scope.location === '' || $scope.location2 === ''){
-        alert('Directive did not update the location property in parent controller.');
-      } else {
-        alert('Yay. Location: ' + $scope.eventObj.eventLocation);
-      }
+      $scope.eventObj.eventLocation = $scope.location;
+      $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
+      $scope.eventObj.endDate = Date.parse($scope.eventObj.endDate);
       $http.post('/api/events', $scope.eventObj).
       success(function(data){
         $location.path('/');
@@ -63,15 +58,11 @@ $scope.locationName = {
         var autocomplete = new google.maps.places.Autocomplete($("#google_places_ac")[0], {});
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
           var place = autocomplete.getPlace();
-
-          var location = place.geometry.location.lat();
-          var location2 = place.geometry.location.lng();
+          var location = place.geometry.location.lat() + ',' + place.geometry.location.lng();
           $scope.$apply(function(){
-            $scope.location = location;
-            $scope.location2 = location2;
+            $scope.location = place.formatted_address;
           }); 
         });
-
       }
     }
   });

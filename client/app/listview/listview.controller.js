@@ -2,14 +2,6 @@
 
 angular.module('goApp')
   .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory) {
-    // $scope.event = {
-    //   'startDate': "",
-    //   'endDate': "",
-    //   'startTime': "",
-    //   'endTime': "",
-    //   'eventLocation': "",
-    //   'eventName': "",
-    // };
 
     // $scope.items = [
     //   {
@@ -90,7 +82,9 @@ angular.module('goApp')
       thumb: thumb
     };
 
-    $scope.events = [];
+    $scope.openEventInformation = function(){
+      console.log("Clicked.");
+    };
 
     // Get list of events
     $http.get('/api/events')

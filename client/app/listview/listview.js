@@ -33,6 +33,10 @@ angular.module('goApp')
       },
       controller: function($scope, $interpolate, $compile, $templateCache){
         $scope.predicate = 'title';
+        $scope.visible = {
+          hideEvents: true,
+          showInformation: false
+        };
         $scope.getTemplate = function (column) {
           var prefix = $scope.listviewId ? $scope.listviewId + '-' : '';
           var template = prefix + 'column-' + column + '.html';
@@ -42,6 +46,11 @@ angular.module('goApp')
         $scope._format = function(column, item){
           return this.methods && this.methods[column] ? this.methods[column](item[column], item) : item[column];
         };
+        $scope.openEventInformation = function(){
+          $scope.visible.hideEvents = false;
+          $scope.visible.showInformation = true;
+          console.log("Hi");
+        }
       }
     };
   }])
