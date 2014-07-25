@@ -1,16 +1,21 @@
 .thing-form {
     margin: 20px 0;
+        font-family: 'Lato', sans-serif;
 }
 
 #banner {
     border-bottom: none;
     margin-top: -20px;
+    font-family: 'Lato', sans-serif;
+
 }
 
 #banner h1 {
     font-size: 60px;
     line-height: 1;
     letter-spacing: -1px;
+    font-family: 'Lato', sans-serif;
+
 }
 
 .hero-unit {
@@ -20,6 +25,8 @@
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     background: #4393B9;
+    font-family: 'Lato', sans-serif;
+
 }
 
 .footer {
@@ -27,4 +34,113 @@
     padding: 30px 0;
     margin-top: 70px;
     border-top: 1px solid #E5E5E5;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.button-display{
+    position:relative;
+    top:50%;
+    left:44%;
+    font-family: 'Lato', sans-serif;
+
+}
+
+.button-signup {
+    margin: 0 auto;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3170a8), color-stop(1, #2f69a3) );
+    background:-moz-linear-gradient( center top, #3170a8 5%, #2f69a3 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3170a8', endColorstr='#2f69a3');
+    background-color:#3170a8;
+    -webkit-border-top-left-radius:42px;
+    -moz-border-radius-topleft:42px;
+    border-top-left-radius:42px;
+    -webkit-border-top-right-radius:42px;
+    -moz-border-radius-topright:42px;
+    border-top-right-radius:42px;
+    -webkit-border-bottom-right-radius:42px;
+    -moz-border-radius-bottomright:42px;
+    border-bottom-right-radius:42px;
+    -webkit-border-bottom-left-radius:42px;
+    -moz-border-radius-bottomleft:42px;
+    border-bottom-left-radius:42px;
+    text-indent:-75px;
+    border:1px solid #5b81a6;
+    display:inline-block;
+    color:#ffffff;
+    font-family: 'Lato', sans-serif;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    height:30px;
+    line-height:30px;
+    width:150px;
+    text-decoration:none;
+    text-align:center;
+}
+.button-signup:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2f69a3), color-stop(1, #3170a8) );
+    background:-moz-linear-gradient( center top, #2f69a3 5%, #3170a8 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#2f69a3', endColorstr='#3170a8');
+    background-color:#2f69a3;
+}.button-signup:active {
+    position:relative;
+}
+
+.button-login {
+    margin: 0 auto;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3db044), color-stop(1, #3db045) );
+    background:-moz-linear-gradient( center top, #3db044 5%, #3db045 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3db044', endColorstr='#3db045');
+    background-color:#3db044;
+    -webkit-border-top-left-radius:42px;
+    -moz-border-radius-topleft:42px;
+    border-top-left-radius:42px;
+    -webkit-border-top-right-radius:42px;
+    -moz-border-radius-topright:42px;
+    border-top-right-radius:42px;
+    -webkit-border-bottom-right-radius:42px;
+    -moz-border-radius-bottomright:42px;
+    border-bottom-right-radius:42px;
+    -webkit-border-bottom-left-radius:42px;
+    -moz-border-radius-bottomleft:42px;
+    border-bottom-left-radius:42px;
+    text-indent:-75px;
+    border:1px solid #5b81a6;
+    display:inline-block;
+    color:#ffffff;
+    font-family: 'Lato', sans-serif;
+    font-size:15px;
+    font-weight:bold;
+    font-style:normal;
+    height:30px;
+    line-height:30px;
+    width:150px;
+    text-decoration:none;
+    text-align:center;
+}
+.button-login:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3db045), color-stop(1, #3db044) );
+    background:-moz-linear-gradient( center top, #3db045 5%, #3db044 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3db045', endColorstr='#3db044');
+    background-color:#3db045;
+}.button-login:active {
+    position:relative;
+}
+
+.modal-backdrop.am-fade {
+  opacity: .5;
+  transition: opacity .15s linear;
+  &.ng-enter {
+    opacity: 0;
+    &.ng-enter-active {
+      opacity: .5;
+    }
+  }
+  &.ng-leave {
+    opacity: .5;
+    &.ng-leave-active {
+      opacity: 0;
+    }
+  }
 }

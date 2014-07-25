@@ -19,4 +19,9 @@ angular.module('goApp')
     $scope.deleteThing = function(thing) {
       $http.delete('/api/things/' + thing._id);
     };
+
+    $scope.modal = {
+      "title": "Login",
+      "content": "Please fill in the following fields:"
+    };
   });
