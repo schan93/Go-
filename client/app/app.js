@@ -6,8 +6,8 @@ angular.module('goApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  //'ui.bootstrap',
-  'mgcrea.ngStrap'])
+  'mgcrea.ngStrap',
+  'listviewService'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({

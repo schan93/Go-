@@ -6,7 +6,11 @@ angular.module('goApp')
       .when('/listview', {
         templateUrl: 'app/listview/listview.html',
         controller: 'ListviewCtrl'
-      });
+      })
+      /*.when('/event/:id', {
+        templateUrl:'app/listview/eventInformation.html',
+        controller: 'ListviewCtrl'
+      });*/
   })
   .directive('listview', ['$compile', '$interpolate','$templateCache', function($compile, $interpolate, $templateCache) {
     return {

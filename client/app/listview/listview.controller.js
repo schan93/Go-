@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory) {
+  .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory, $routeParams) {
 
     // $scope.items = [
     //   {
@@ -39,6 +39,7 @@ angular.module('goApp')
       var units = si ? ['KB','MB','GB','TB','PB','EB','ZB','YB'] : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
       var u = -1;
       do {
+
         bytes /= thresh;
         ++u;
       } while(bytes >= thresh);
@@ -87,10 +88,49 @@ angular.module('goApp')
     };
 
     // Get list of events
+    //$scope.events = listviewFactory.query();
+    /*for(var i = 0; i < $scope.events.length(); i++){
+
+    }*/
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
       });
+
+    $scope.test = {
+      'startDate': "aaa",
+      'endDate': "",
+      'eventLocation': "",
+      'eventName': ""
+    };
+
+$scope.grabEventData = function(event){
+      $scope.test.startDate = event.startDate;
+      $scope.test.endDate = event.endDate;
+      $scope.test.eventLocation = event.eventLocation;
+      $scope.test.eventName = event.eventName;
+      console.log("In!");
+      $location('/event.eventName');
+      /*$http.get('events/:id', $routeParams.id)
+      .success(function(event){
+        $scope.test = event;
+      });*/
+}
+
+$scope.testFunction = function(){
+  console.log("Test event name: ", $scope.test.eventName);
+}
+
+
+      $scope.test = listviewFactory.get({show: $routeParams.id});
+
+
+    //Get just 1 event
+    //$scope.test = listviewFactory.get({id: $routeParams.id});
+    /*$http.get({_id: id}, '/api/events')
+      .success($routeParams.id, function(data, status, headers, config){
+        $scope.test = data;
+      });*/
 
     // listviewFactory.getEvents().then(function (events){
     //   $scope.teststuff = events;

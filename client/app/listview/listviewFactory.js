@@ -1,20 +1,8 @@
 'use strict';
 
-angular.module('goApp')
-  .factory('listviewFactory', function ($q, $http) {
-    return {
-      getEvents: function () {
-        var deferred = $q.defer(),
-          httpPromise = $http.get('/api/events');
- 
-        httpPromise.success(function (events) {
-          deferred.resolve(events);
-        })
-          .error(function (error) {
-            console.error('Error: ' + error);
+  angular.module('listviewService', ['ngResource']).
+          factory('listviewFactory', function($resource) {
+            return $resource('events/:id', {}, {
+              get: { method: 'GET' }
+            })
           });
- 
-        return deferred.promise;
-      }
-    };
-  });
