@@ -104,25 +104,42 @@ angular.module('goApp')
       'eventName': ""
     };
 
+
+$scope.show = {
+  'event': true
+};
+
 $scope.grabEventData = function(event){
       $scope.test.startDate = event.startDate;
       $scope.test.endDate = event.endDate;
       $scope.test.eventLocation = event.eventLocation;
       $scope.test.eventName = event.eventName;
       console.log("In!");
-      $location('/event.eventName');
+      $scope.show.event = false;
+      console.log("Route params: ", $routeParams.id);
+      $scope.testing.id = $routeParams.id;
+
+}
+
+$scope.grabEvent = function($scope, $routeParams, event){
+  $scope.eventId = $routeParams._id;
+}
+
       /*$http.get('events/:id', $routeParams.id)
       .success(function(event){
         $scope.test = event;
       });*/
-}
 
 $scope.testFunction = function(){
   console.log("Test event name: ", $scope.test.eventName);
-}
+  if($routeParams.id){
+    $scope.testing123 = listFactoroy.get({id: $routeParams.id});
+  }
+
+};
 
 
-      $scope.test = listviewFactory.get({show: $routeParams.id});
+      //$scope.test = listviewFactory.get({show: $routeParams.id});
 
 
     //Get just 1 event

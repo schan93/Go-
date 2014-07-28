@@ -7,12 +7,16 @@ angular.module('goApp')
         templateUrl: 'app/listview/listview.html',
         controller: 'ListviewCtrl'
       })
+      .when('/listview/:id', {
+        templateUrl: 'app/listview/eventInformation.html',
+        controller: 'ListviewCtrl'
+      });
       /*.when('/event/:id', {
         templateUrl:'app/listview/eventInformation.html',
         controller: 'ListviewCtrl'
       });*/
-  })
-  .directive('listview', ['$compile', '$interpolate','$templateCache', function($compile, $interpolate, $templateCache) {
+  });
+  /*.directive('listview', ['$compile', '$interpolate','$templateCache', function($compile, $interpolate, $templateCache) {
     return {
       restrict: 'EA',
       transclude: false,
@@ -57,4 +61,4 @@ angular.module('goApp')
     return function (input) {
       return input.charAt(0).toUpperCase() + input.slice(1);
     };
-  });
+  });*/
