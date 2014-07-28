@@ -17,7 +17,7 @@
 
 
 
-    <tr ng-repeat="event in events | filter:searchText" class="animate-repeat">
+    <tr ng-repeat="event in events | filter:searchText" data-link="row" class="data-link animate-repeat">
         <td>
           <a href="/app/listview/{{testing.id}}" ng-click="grabEventData(event)"  style="text-decoration:none;">
                 <div ng-show="event.eventName != ''" >{{event.eventName}}</div>
