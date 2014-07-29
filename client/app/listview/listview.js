@@ -9,7 +9,7 @@ angular.module('goApp')
       })
       .when('/listview/:id', {
         templateUrl: 'app/listview/eventInformation.html',
-        controller: 'ListviewCtrl'
+        controller: 'EventInformationCtrl'
       });
       /*.when('/event/:id', {
         templateUrl:'app/listview/eventInformation.html',

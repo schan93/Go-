@@ -19,7 +19,7 @@
 
     <tr ng-repeat="event in events | filter:searchText" data-link="row" class="data-link animate-repeat">
         <td>
-          <a href="/app/listview/{{testing.id}}" ng-click="grabEventData(event)"  style="text-decoration:none;">
+          <a href="/#/listview/{{$index}}" ng-click="grabEventData()"  style="text-decoration:none;">
                 <div ng-show="event.eventName != ''" >{{event.eventName}}</div>
                 <div ng-show="event.eventLocation !== ''">{{event.eventLocation}}</div>
                 <!--<div ng-show="!show.event" ng-include="'/app/listview/eventInformation.html'"></div>-->

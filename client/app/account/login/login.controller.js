@@ -7,6 +7,7 @@ angular.module('goApp')
 
     $scope.login = function(form) {
       $scope.submitted = true;
+      console.log("hi");
 
       if(form.$valid) {
         Auth.login({
@@ -15,11 +16,14 @@ angular.module('goApp')
         })
         .then( function() {
           // Logged in, redirect to home
+      console.log("hi2");
 
           $location.path('/');
         })
         .catch( function(err) {
           $scope.errors.other = err.message;
+                console.log("hi22");
+
         });
       }
     };
