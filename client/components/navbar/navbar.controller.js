@@ -15,7 +15,7 @@ angular.module('goApp')
 
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
+      $location.path('/'); // was $location.path('/login')
     };
 
     $scope.isActive = function(route) {
