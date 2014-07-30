@@ -1,5 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-
+<div ng-controller="ListviewCtrl">
 <div ng-show="show.event">
 <table class="table table-striped table-bordered table-hover"> 
     <thead>
@@ -19,9 +19,9 @@
 
     <tr ng-repeat="event in events | filter:searchText" data-link="row" class="data-link animate-repeat">
         <td>
-          <a href="/#/listview/{{$index}}" ng-click="grabEventData()"  style="text-decoration:none;">
-                <div ng-show="event.eventName != ''" >{{event.eventName}}</div>
-                <div ng-show="event.eventLocation !== ''">{{event.eventLocation}}</div>
+          <a href="/#/listview/{{$index}}" ng-click="grabEventData(events, $index)" style="text-decoration:none;">
+                <div>{{event.eventName}}</div>
+                <div>{{event.eventLocation}}</div>
                 <!--<div ng-show="!show.event" ng-include="'/app/listview/eventInformation.html'"></div>-->
 
                 <!--<div ng-hide="!show.event" ng-include"'/app/listview/eventInformation.html'"></div>-->
@@ -37,7 +37,7 @@
     </tr>
     </tbody>
 </table>
-
+</div>
 
 
 

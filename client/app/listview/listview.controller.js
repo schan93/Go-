@@ -7,16 +7,21 @@ angular.module('goApp')
       .success(function(data, status, headers, config) {
         $scope.events = data;
       });
+
+
       
-      //or $scope.events = listviewFactory.query();
+//$scope.events = listviewFactory.query();
 
 $scope.show = {
   'event': true
 };
 
-$scope.grabEventData = function(){
+$scope.test = {};
+$scope.testing123 = [];
+$scope.grabEventData = function(events, index){
       $scope.show.event = false;
-}
+      listviewFactory.addEvent(events, index);
+};
 
 
       //$scope.test = listviewFactory.get({show: $routeParams.id});
