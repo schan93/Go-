@@ -1,10 +1,15 @@
-<div ng-include="'components/navbar/navbar.html'"></div>
-<hr>
+<div ng-include="'components/navbar/navbar.html'" style="font-family: 'Lato', sans-serif;"></div>
+<div class="container text-center"> 
 <a href="/#/listview/" class="btn btn-primary">Back</a>
+
+
   <h1>{{event.eventName}}</h1>
   <b>{{event.startDate}} - {{event.endDate}}</b>
   <hr>
   <address>
     {{event.eventLocation}}
   </address>
+
+  <button type="button" class="btn btn-default btn-lg" ng-click="userAttending()">Attend?</button>
+
 </div>
