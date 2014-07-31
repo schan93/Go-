@@ -4,9 +4,6 @@ angular.module('goApp')
   .controller('MainCtrl', function ($scope, $http, Auth, $location, $window, $modal) {
     $scope.awesomeThings = [];
 
-    // $http.get('/api/things').success(function(awesomeThings) {
-    //   $scope.awesomeThings = awesomeThings;
-    // });
     var loginModal = $modal({title: 'Login', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/loginModal.html', show: false});
     var signupModal = $modal({title: 'Sign Up', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/signupModal.html', show: false});
 

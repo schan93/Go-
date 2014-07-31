@@ -9,7 +9,8 @@ angular.module('goApp')
       'startDate': "",
       'endDate': "",
       'eventLocation': "",
-      'eventName': ""
+      'eventName': "",
+      'atendees': []
     };
     $scope.create = function(){
       $scope.eventObj.eventLocation = $scope.location;
