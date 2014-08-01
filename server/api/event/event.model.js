@@ -8,7 +8,7 @@ var EventSchema = new Schema({
  	endDate: Date,
  	eventLocation: String,
  	eventName: String,
- 	atendees: Array
+ 	attendees: Array
 });
 
 module.exports = mongoose.model('Event', EventSchema);
