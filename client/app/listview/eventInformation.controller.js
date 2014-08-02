@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('EventInformationCtrl', function ($scope, $http, $routeParams, $rootScope, $cookieStore, User, Auth, listviewFactory) {
+  .controller('EventInformationCtrl', function ($scope, $location, $http, $routeParams, $rootScope, $cookieStore, User, Auth, listviewFactory) {
 
   	$scope.event = listviewFactory.getEvent();
 
     //We need to somehow pass in the logged in user's name
     $scope.attending = function(){
    		var currentUser = {};
-    	var userAttendingEvent = {};
+    	var userAttendingEvent = true;
     	if($cookieStore.get('token')) {
       		currentUser = User.get();
       		console.log("Current User: ", currentUser);
@@ -21,12 +21,16 @@ angular.module('goApp')
       }
       if(userAttendingEvent){
       	$scope.event.attendees.push(currentUser);
-      	console.log("Pushed!: ", $scope.event);
 
-      	$http.put('/api/events/:id',0).
-      		success(function(data){
-       			 $location.path('/');
-      	});
+      	$http.put('/api/events/' + $scope.event._id, $scope.event).success(function(data){
+          for(var i = 0; i < $scope.event.attendees.length; i++){
+            console.log("Attendees length: ", $scope.event.attendees.length);
+            console.log("Attendees: ", $scope.event.attendees[i]);
+          }
+
+          $location.path('/');
+        });
+      	
       }
     };
 
