@@ -4,11 +4,18 @@
 <div class="container-fluid" style="font-family: 'Lato', sans-serif;">
   <div class="row">
     <div class="col-sm-12">
-      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>test@test.com</code> / <code>test</code></p>
-      <p>Admin account is <code>admin@admin.com</code> / <code>admin</code></p>
+      <p>Accounts are reset on server restart from <code>server/config/seed.js</code>. Default account is <code>testUser</code> / <code>test@test.com</code> / <code>test</code></p>
+      <p>Admin account is <code>testUser</code> / <code>admin@admin.com</code> / <code>admin</code></p>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="login(form)" novalidate>
+
+        <div class="form-group">
+          <label>Username</label>
+
+          <input type="text" name="email" class="form-control" ng-model="user.username">
+        </div>
+
 
         <div class="form-group">
           <label>Email</label>

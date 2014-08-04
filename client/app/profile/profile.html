@@ -1,0 +1,31 @@
+<div ng-include="'components/navbar/navbar.html'" ></div>
+<div class="container text-center">
+	<profileDirective></profileDirective>
+
+
+	<h1>Welcome {{currentUser.name}}!</h1>
+	<h3>Username: {{currentUser.username}}</h3>
+
+	<hr>
+	<h2>Events Attending: </h2>
+	<h1>{{currentUser.eventsAttending}}</h1>
+</div>
+
+<table class="table table-striped table-hover"> 
+	<thead>
+		<tr><th>Event Name</th><th>Event location</th><th>Event Start Date</th><th>Event End Date</th></tr>
+	</thead>
+	<tbody id="events-list"  data-link="row" class="rowlink">
+		<tr ng-repeat="event in events | filter:searchText">
+			<a href="/#/listview/{{$index}}" ng-click="grabEventData(events, $index)" style="text-decoration:none;">
+				<td><div>{{event.eventName}}</div></td>
+				<td><div>{{event.eventLocation}}</div></td>
+        		<td><div>{{event.startDate | date:'MM-dd-yyyy hh:mm:ss a'}}</div></td>
+        		<td><div>{{event.endDate | date:'MM-dd-yyyy hh:mm:ss a'}}</div></td>
+    		</a>
+		</tr>
+	</tbody>
+</table>
+
+<button type="button" class="btn btn-primary btn-lg" ng-click="attending(event)">Friend me!</button>
+

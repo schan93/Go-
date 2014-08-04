@@ -21,6 +21,7 @@ angular.module('goApp')
         var deferred = $q.defer();
 
         $http.post('/auth/local', {
+          username: user.username,
           email: user.email,
           password: user.password
         }).

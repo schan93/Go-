@@ -9,6 +9,7 @@ describe('User Model', function() {
   before(function(done) {
     user = new User({
       provider: 'local',
+      username:'fakeUser',
       name: 'Fake User',
       email: 'test@test.com',
       password: 'password'
@@ -45,6 +46,14 @@ describe('User Model', function() {
 
   it('should fail when saving without an email', function(done) {
     user.email = '';
+    user.save(function(err) {
+      should.exist(err);
+      done();
+    });
+  });
+
+  it('should fail when saving without a username', function(done) {
+    user.username = '';
     user.save(function(err) {
       should.exist(err);
       done();

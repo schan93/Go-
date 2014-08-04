@@ -41,12 +41,17 @@ angular.module('goApp')
 
       if(form.$valid) {
         Auth.login({
+          username: $scope.user.username,
           email: $scope.user.email,
           password: $scope.user.password
         })
         .then( function() {
           // Logged in, redirect to home
           loginModal.hide();
+          $scope.user.name = "";
+          $scope.user.email= "";
+          $scope.user.username= "";
+          $scope.user.password= "";
           $location.path('/');
         })
         .catch( function(err) {
@@ -67,11 +72,16 @@ angular.module('goApp')
         Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
+          username: $scope.user.username,
           password: $scope.user.password
         })
         .then( function() {
           // Account created, redirect to home
           signupModal.hide();
+          $scope.user.name = "";
+          $scope.user.email= "";
+          $scope.user.username= "";
+          $scope.user.password= "";
           $location.path('/');
         })
         .catch( function(err) {
