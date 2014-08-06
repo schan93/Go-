@@ -113,43 +113,54 @@ body {
 .eventName{
   font-size: 30px; color: #9e9e9e; 
   font-family: 'Lato', sans-serif;
-  position:relative;
-  bottom:8px;
+  float:left;
+  position:absolute;
+  line-height:75%
 }
 
 .eventLocation{
   font-size: 20px; color: #9e9e9e; 
   font-family: 'Lato', sans-serif;
-  position:relative;
-  text-align: left;
+  position:absolute;
+  float: left;
+  line-height:400%;
 }
 
 .eventTime{
   font-size: 15px; color:#9e9e9e;
   font-family: 'Lato', sans-serif;
+  float:right;
   position:relative;
-  bottom:75px;
-  left: 1000px;
+  line-height:75%;
 }
 
 .attendButton{
   font-size: 30px; color:#9e9e9e;
   font-family: 'Lato', sans-serif;
-  position:relative;
-  bottom:75px;
-  left:1000px;
-}
+  line-height:200%;
+  left:145px;
+    position:relative;
+  float:right;
+  display:block;
+    padding-right:5px;
+
+  }
 
 .editButton{
+  float:right;
+  display:block;
   position:relative;
-  bottom:105px;
-  left:1085px;
-}
+  line-height:480%;
+  left:145px;
+    padding-right:5px;
 
+}
 .deleteButton{
+  float:right;
+  display:block;
   position:relative;
-  bottom:135px;
-  left:1130px;
+  line-height:480%;
+  left:145px;
 }
 
 .pac-container {

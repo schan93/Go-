@@ -19,12 +19,14 @@
       <tr ng-repeat="event in events | filter:searchText">
           <td><a href="/#/listview/{{$index}}" ng-click="grabEventData(events, $index)"><div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div></a></td>
           <td>
-            <div class="eventName">{{event.eventName}}</div>
-            <div class="eventLocation">{{event.eventLocation}}</div>
-            <div class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</div>
-            <div class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-md" ng-click="attending(event)">Attend?</button></div>
-            <div class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></div>
-            <div class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></div>
+            <span class="eventName">{{event.eventName}}</span>
+            <span class="eventLocation">{{event.eventLocation}}</span>
+            <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
+
+            <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
+            <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
+
+            <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event)">Attend?</button></span>
           </td>
       </tr>
     </tbody>
