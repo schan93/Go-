@@ -2,8 +2,6 @@
 
 angular.module('goApp')
   .controller('MainCtrl', function ($scope, $http, Auth, $location, $window, $modal) {
-    $scope.awesomeThings = [];
-
     var loginModal = $modal({title: 'Login', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/loginModal.html', show: false});
     var signupModal = $modal({title: 'Sign Up', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/signupModal.html', show: false});
 
@@ -19,18 +17,6 @@ angular.module('goApp')
     };
     $scope.hideSignup = function() {
       signupModal.$promise.then(signupModal.hide);
-    };
-
-    $scope.addThing = function() {
-      if($scope.newThing === '') {
-        return;
-      }
-      $http.post('/api/things', { name: $scope.newThing });
-      $scope.newThing = '';
-    };
-
-    $scope.deleteThing = function(thing) {
-      $http.delete('/api/things/' + thing._id);
     };
 
     $scope.user = {};
