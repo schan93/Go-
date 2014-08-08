@@ -26,7 +26,7 @@
             <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
             <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
 
-            <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event)">Attend?</button></span>
+            <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event, $index)">Attend?</button></span>
           </td>
       </tr>
     </tbody>

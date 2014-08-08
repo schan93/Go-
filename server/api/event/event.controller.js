@@ -11,6 +11,14 @@ exports.index = function(req, res) {
   });
 };
 
+exports.getUser = function(req, res) {
+  Event.find(req.params.attendees, function (err, user) {
+    if(err) { return handleError(res, err); }
+    if(!event) { return res.send(404); }
+    return res.json(user);
+  });
+};
+
 // Get a single event
 exports.show = function(req, res) {
   Event.findById(req.params.id, function (err, event) {

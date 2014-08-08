@@ -15,7 +15,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  eventsAttending: {type: Array, "default": []},
+  eventsAttending: Array,
   hashedPassword: String,
   provider: String,
   salt: String,

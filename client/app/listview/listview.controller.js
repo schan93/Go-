@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('ListviewCtrl', function ($scope, $http, $location, listviewFactory, $routeParams, $modal, $window) {
+  .controller('ListviewCtrl', function (Auth, $scope, $http, $location, listviewFactory, $routeParams, $cookieStore, $modal, User, $window) {
     $scope.location = "";
     $scope.events = [];
     $scope.eventId = "";
@@ -13,6 +13,7 @@ angular.module('goApp')
       'attendees': []
     };
 
+    $scope.currentUser = "";
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
@@ -58,6 +59,28 @@ angular.module('goApp')
       $http.get('/api/events')
         .success(function(data, status, headers, config) {
           $scope.events = data;
+        });
+    }
+
+    $scope.attending = function(event, id){
+      /*if($cookieStore.get('token')){
+        $scope.currentUser = User.get();
+      }*/
+      if($cookieStore.get('token')){
+        $scope.currentUser = Auth.getCurrentUser();
+      
+        console.log("Current User: ", $scope.currentUser);
+        console.log("Current User Name: ", $scope.currentUser.username);
+      }
+      $scope.events[id].attendees.push($scope.currentUser.username);
+      $http.put('/api/events/' + event._id, event)
+        .success(function(data) {
+          console.log("Success. Event " + $scope.eventId + " was edited.");
+        });
+      $scope.currentUser.eventsAttending.push(event.eventName);
+      $http.put('/api/users/' + $scope.currentUser._id, $scope.currentUser)
+        .success(function(data){
+          console.log("Success. User " + $scope.currentUser.name);
         });
     }
     // The only thing that doesn't work right now for editEvent has to do
