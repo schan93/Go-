@@ -11,11 +11,12 @@ exports.index = function(req, res) {
   });
 };
 
+//Find users that are attending an Event
 exports.getUser = function(req, res) {
-  Event.find(req.params.attendees, function (err, user) {
-    if(err) { return handleError(res, err); }
-    if(!event) { return res.send(404); }
-    return res.json(user);
+  Event.findOne().populate('_id').exec(function(err, user){
+    if(err) return handleError(err);
+    console.log(user._id.name);
+    return res.json(user)
   });
 };
 

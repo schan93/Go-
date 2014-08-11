@@ -15,7 +15,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  eventsAttending: Array,
+  eventsAttending: [{ type: Schema.Types.ObjectId, ref: 'Event'}],
   hashedPassword: String,
   provider: String,
   salt: String,

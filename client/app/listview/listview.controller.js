@@ -13,7 +13,7 @@ angular.module('goApp')
       'attendees': []
     };
 
-    $scope.currentUser = "";
+    $scope.currentUser = {};
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
@@ -68,16 +68,15 @@ angular.module('goApp')
       }*/
       if($cookieStore.get('token')){
         $scope.currentUser = Auth.getCurrentUser();
-      
-        console.log("Current User: ", $scope.currentUser);
-        console.log("Current User Name: ", $scope.currentUser.username);
       }
-      $scope.events[id].attendees.push($scope.currentUser.username);
+      $scope.events[id].attendees.push($scope.currentUser._id);
       $http.put('/api/events/' + event._id, event)
         .success(function(data) {
-          console.log("Success. Event " + $scope.eventId + " was edited.");
+          console.log("Success. Event " + $scope.eventId.eventName + " was edited.");
         });
-      $scope.currentUser.eventsAttending.push(event.eventName);
+      console.log("Current User: ", $scope.currentUser._id);
+      console.log("Current Event: ", event._id);
+      $scope.currentUser.eventsAttending.push(event._id);
       $http.put('/api/users/' + $scope.currentUser._id, $scope.currentUser)
         .success(function(data){
           console.log("Success. User " + $scope.currentUser.name);

@@ -22,6 +22,7 @@ exports.index = function(req, res) {
   });
 };
 
+//Get the Events that a user is attending
 exports.getEvents = function(req, res) {
   User.find(req.params.eventsAttending, function (err, event) {
     if(err) { return handleError(res, err); }
