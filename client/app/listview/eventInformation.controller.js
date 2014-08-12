@@ -8,10 +8,13 @@ angular.module('goApp')
     $scope.user = Auth.getCurrentUser();
     $scope.test = {};
 
-    $http.get('/api/events/' + $scope.event.eventName)
+    $http.get('/api/events/' + $scope.event._id)
       .success(function(data, status, headers, config) {
         $scope.test = data;
-        console.log("Scope test:" + $scope.test.eventName);
+        $scope.testing = JSON.parse(JSON.stringify($scope.test, null, 4));
+        for(var i = 0; i < $scope.test.attendees.length; i++){
+          console.log("Testing username: ", $scope.testing.attendees[i].username);
+        }
     });
 
   });

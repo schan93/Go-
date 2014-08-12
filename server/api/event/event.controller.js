@@ -13,9 +13,9 @@ exports.index = function(req, res) {
 
 //Find users that are attending an Event
 exports.getUser = function(req, res) {
-  Event.findOne().populate('_id').exec(function(err, user){
+  Event.findById(req.params.id).populate('attendees').exec(function(err, user){
     if(err) return handleError(err);
-    console.log(user._id.name);
+    console.log(user);
     return res.json(user)
   });
 };
