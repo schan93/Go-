@@ -31,10 +31,6 @@ module.exports = function(app) {
     });
   });*/
 
-/*app.get('/api', function(req, res, next) {
-  res.render('createEvent');
-});*/
-
   app.route('/*')
     .get(function(req, res) {
       res.sendfile(app.get('appPath') + '/index.html');

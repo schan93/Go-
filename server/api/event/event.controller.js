@@ -12,11 +12,11 @@ exports.index = function(req, res) {
 };
 
 //Find users that are attending an Event
-exports.getUser = function(req, res) {
-  Event.findById(req.params.id).populate('attendees').exec(function(err, user){
+exports.getUsers = function(req, res) {
+  Event.findById(req.params.id).populate('attendees').exec(function(err, users){
     if(err) return handleError(err);
-    console.log(user);
-    return res.json(user)
+    console.log(users);
+    return res.json(users)
   });
 };
 

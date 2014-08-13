@@ -1,28 +1,18 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('ProfileCtrl', function ($scope, $cookieStore, User, $http) {
-  	   	$scope.currentUser = User.get();
-  	   	$scope.getUser = function(){
-    		if($cookieStore.get('token')){
-      			$scope.currentUser = User.get();
-    		}
-    	};
-   	 $http.get('/api/events')
+  .controller('ProfileCtrl', function ($scope, $cookieStore, User, Auth, $http) {
+  	$scope.currentUser = Auth.getCurrentUser();
+
+    $http.get('/api/users/' + $scope.currentUser._id)
       .success(function(data, status, headers, config) {
-        $scope.events = data;
-      });//Eventually need to hide events from each individual person...
+        $scope.eventsAttending = data;
+        for(var i = 0; i < $scope.eventsAttending.eventsAttending.length; i++){
+          console.log("Testing username: ", $scope.eventsAttending.eventsAttending[i].eventName);
+        }
+    });
 
-  })
-  .directive('profileDirective', function(){
-    return {
-      restrict: 'E',
-      template: 'Name: {{currentUser.userName}} Email: {{currentUser.email}}',
-      link: function(scope, elems, attrs){
-    		if($cookieStore.get('token')){
-      			scope.currentUser = User.get();
-    		}
-    	}
-
-    };//Doesn't do anything.
+    $scope.friendMe = function(){
+      console.log("Friend me: ", $scope.currentUser._id);
+    };
   });

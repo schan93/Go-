@@ -22,12 +22,12 @@ exports.index = function(req, res) {
   });
 };
 
-//Get the Events that a user is attending
+//Get Events that a user is attending 
 exports.getEvents = function(req, res) {
-  User.find(req.params.eventsAttending, function (err, event) {
-    if(err) { return handleError(res, err); }
-    if(!event) { return res.send(404); }
-    return res.json(event);
+  User.findById(req.params.id).populate('eventsAttending').exec(function(err, events){
+    if(err) return res.send(500, err);
+    console.log(events);
+    return res.json(events);
   });
 };
 
@@ -63,7 +63,7 @@ exports.create = function (req, res, next) {
 /**
  * Get a single user
  */
-exports.show = function (req, res, next) {
+/*exports.show = function (req, res, next) {
   var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
@@ -71,7 +71,7 @@ exports.show = function (req, res, next) {
     if (!user) return res.send(401);
     res.json(user.profile);
   });
-};
+};*/
 
 /**
  * Deletes a user

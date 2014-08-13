@@ -63,19 +63,22 @@ angular.module('goApp')
     }
 
     $scope.attending = function(event, id){
-      /*if($cookieStore.get('token')){
-        $scope.currentUser = User.get();
-      }*/
+
       if($cookieStore.get('token')){
         $scope.currentUser = Auth.getCurrentUser();
       }
-      $scope.events[id].attendees.push($scope.currentUser._id);
+      for(var i = 0; i < $scope.events.length; i++){
+        if(event.attendees[i] === $scope.currentUser._id){
+          alert("This user is already attending this event.");
+          return;
+        }
+      }
+
+      event.attendees.push($scope.currentUser._id);
       $http.put('/api/events/' + event._id, event)
         .success(function(data) {
           console.log("Success. Event " + $scope.eventId.eventName + " was edited.");
         });
-      console.log("Current User: ", $scope.currentUser._id);
-      console.log("Current Event: ", event._id);
       $scope.currentUser.eventsAttending.push(event._id);
       $http.put('/api/users/' + $scope.currentUser._id, $scope.currentUser)
         .success(function(data){

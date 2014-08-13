@@ -1,7 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'" ></div>
 <div class="container text-center">
-	<profileDirective></profileDirective>
-
 
 	<h1>Welcome {{currentUser.name}}!</h1>
 	<h3>Username: {{currentUser.username}}</h3>
@@ -36,5 +34,5 @@
   </tbody>
 </table>
 
-<button type="button" class="btn btn-primary btn-lg" ng-click="attending(event)">Friend me!</button>
+<button type="button" class="btn btn-primary btn-lg" ng-click="friendMe(event)">Friend me!</button>
 
