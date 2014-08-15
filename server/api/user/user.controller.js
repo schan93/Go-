@@ -24,10 +24,10 @@ exports.index = function(req, res) {
 
 //Get Events that a user is attending 
 exports.getEvents = function(req, res) {
-  User.findById(req.params.id).populate('eventsAttending').exec(function(err, events){
+  User.findById(req.params.id).populate('eventsAttending', 'eventName').exec(function(err, events){
     if(err) return res.send(500, err);
-    console.log(events);
-    return res.json(events);
+    console.log("Events: ", events.eventsAttending);
+    return res.json(events.eventsAttending);
   });
 };
 
@@ -40,7 +40,7 @@ exports.update = function(req, res) {
     var updated = _.merge(user, req.body);
     updated.markModified('eventsAttending');
     updated.save(function (err) {
-      if (err) { return handleError(err); }
+      if (err) { return handleError(err);}
       return res.json(200, user);
     });
   });
@@ -63,7 +63,7 @@ exports.create = function (req, res, next) {
 /**
  * Get a single user
  */
-/*exports.show = function (req, res, next) {
+exports.show = function (req, res, next) {
   var userId = req.params.id;
 
   User.findById(userId, function (err, user) {
@@ -71,7 +71,7 @@ exports.create = function (req, res, next) {
     if (!user) return res.send(401);
     res.json(user.profile);
   });
-};*/
+};
 
 /**
  * Deletes a user
@@ -125,3 +125,8 @@ exports.me = function(req, res, next) {
 exports.authCallback = function(req, res, next) {
   res.redirect('/');
 };
+
+function handleError(res, err) {
+  console.log("Error: ", err);
+  return res.send(500, err);
+}

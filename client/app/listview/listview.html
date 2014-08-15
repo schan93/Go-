@@ -22,7 +22,10 @@
             <span class="eventName">{{event.eventName}}</span>
             <span class="eventLocation">{{event.eventLocation}}</span>
             <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
+            <!--<span ng-repeat="event in usersAttending">{{event.name}}</span>-->
+            <span>{{test(event.attendees)}}</span>
             <!--<span>{{event.attendees}}</span>-->
+
 
             <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
             <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>

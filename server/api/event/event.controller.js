@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 exports.getUsers = function(req, res) {
   Event.findById(req.params.id).populate('attendees').exec(function(err, users){
     if(err) return handleError(err);
-    console.log(users);
+    console.log("Users: ", users);
     return res.json(users)
   });
 };
