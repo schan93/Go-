@@ -15,16 +15,17 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  eventsAttending: [{ type: Schema.ObjectId, ref: 'Event'}],
+  eventsAttending: [{ type: String, ref: 'Event'}],
   hashedPassword: String,
   provider: String,
   salt: String,
   facebook: {},
   twitter: {},
   github: {},
-  google: {}
+  google: {},
 });
 
+UserSchema.set('versionKey', '_version');
 /**
  * Virtuals
  */

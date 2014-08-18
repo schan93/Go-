@@ -19,32 +19,9 @@ angular.module('goApp')
  
     $scope.usersAttendingTest = {};
 
-    $scope.test = function(attendees){
-        for(var i = 0; i < attendees.length; i++){
-          console.log("attendees[" +  i + "]: " + attendees[i]);
-          if(attendees.length == i)
-            break;
-        }
-        //console.log("Users Attending Test:", attendees);
-        //http.get('/api/events/', )
-        //$scope.temp.push(val);
-      
-      //console.log("Temp: ", $scope.temp);
-    };
-
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
-        for(var i = 0; i < $scope.events.length; i++){
-          $http.get('/api/events/' + $scope.events[i]._id)
-            .success(function(data, status, headers, config) {
-            $scope.usersAttending.push(data);
-            console.log("Users Attending: ", $scope.usersAttending);
-            /*for(var i = 0; i < $scope.usersAttending.attendees.length; i++){
-              console.log("Testing username: ", $scope.usersAttending.attendees[i].name);
-            }*/
-          });
-        }
       });
 
     $scope.show = {
@@ -91,26 +68,14 @@ angular.module('goApp')
     }
 
     $scope.attending = function(event, id){
-
       if($cookieStore.get('token')){
         $scope.currentUser = Auth.getCurrentUser();
       }
-      for(var i = 0; i < $scope.events.length; i++){
-        if(event.attendees[i] === $scope.currentUser._id || 
-          $scope.usersAttending.attendees[i] === $scope.currentUser._id){
-          alert("This user is already attending this event.");
-          return;
-        }
-      }
-
-      event.attendees.push($scope.currentUser._id);
-      $scope.usersAttending.attendees.push($scope.currentUser._id);
-      $http.put('/api/events/' + event._id, event)
+      $http.put('/api/events/' + event._id, $scope.currentUser)
         .success(function(data) {
-          console.log("Success. Event " + $scope.eventId.eventName + " was edited.");
+          console.log("Success. Event " + event.eventName + " was edited.");
         });
-      $scope.currentUser.eventsAttending.push(event._id);
-      $http.put('/api/users/' + $scope.currentUser._id, $scope.currentUser)
+      $http.put('/api/users/' + $scope.currentUser._id, event)
         .success(function(data){
           console.log("Success. User " + $scope.currentUser.name);
         });

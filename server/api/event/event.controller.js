@@ -15,8 +15,7 @@ exports.index = function(req, res) {
 exports.getUsers = function(req, res) {
   Event.findById(req.params.id).populate('attendees').exec(function(err, users){
     if(err) return handleError(err);
-    console.log("Users: ", users);
-    return res.json(users)
+    return res.json(users.attendees)
   });
 };
 
@@ -41,12 +40,13 @@ exports.create = function(req, res) {
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Event.findById(req.params.id, function (err, event) {
-    if (err) { return handleError(err); }
+    if (err) { return handleError(res, err); }
     if(!event) { return res.send(404); }
+    event.attendees.push(req.body.username);
     var updated = _.merge(event, req.body);
     updated.markModified('attendees');
     updated.save(function (err) {
-      if (err) { return handleError(err); }
+      if (err) { return handleError(res, err); }
       return res.json(200, event);
     });
   });
