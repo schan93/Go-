@@ -12,7 +12,9 @@ describe('User Model', function() {
       username:'fakeUser',
       name: 'Fake User',
       email: 'test@test.com',
-      password: 'password'
+      password: 'password',
+      location: 'Davis, CA',
+      aboutMe: 'I am awesome!'
     });
 
     // Clear users before testing

@@ -3,14 +3,20 @@
 angular.module('goApp')
   .controller('EventInformationCtrl', function ($scope, $location, $http, $routeParams, $rootScope, $cookieStore, User, Auth, listviewFactory) {
 
-  	$scope.event = listviewFactory.getEvent();
-  	$scope.userAttendingEvent = true;
+    $scope.eventId = $routeParams.id;
+  	$scope.userAttendingEvent = false;
     $scope.user = Auth.getCurrentUser();
     $scope.test = {};
 
-    $http.get('/api/events/' + $scope.event._id)
+
+    $http.get('/api/events/' + $scope.eventId)
       .success(function(data, status, headers, config) {
-        $scope.usersAttending = data;
+        $scope.event = data;
+        for(var i = 0; i < $scope.event.attendees.length; i++){
+          if($scope.event.attendees[i] === $scope.user.username){
+            $scope.userAttendingEvent = true;
+          }
+        }
     });
 
     $scope.attending = function(event){
@@ -25,6 +31,8 @@ angular.module('goApp')
         .success(function(data){
           console.log("Success. User " + $scope.currentUser.name);
         });
-    }
+
+    };
 
   });
+ 

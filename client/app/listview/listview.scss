@@ -154,7 +154,7 @@ body {
   position:relative;
   line-height:480%;
   left:145px;
-    padding-right:5px;
+  padding-right:5px;
 
 }
 .deleteButton{
@@ -168,3 +168,9 @@ body {
 .pac-container {
     z-index: 1051 !important;
 }
+
+.eventAttendees{
+  float:right;
+  display:block;
+  position: relative;
+  left:145px; }

@@ -1,13 +1,21 @@
 <div ng-include="'components/navbar/navbar.html'" ></div>
 <div class="container text-center"> 
 
-
+  <div>
+  	<span ng-show="userAttendingEvent">*You are already attending this event*</span>
+  </div>
   <h1>{{event.eventName}}</h1>
   <b>
     {{event.eventLocation}}
   </b>
   <hr>
     <b>{{event.startDate | date:'MM-dd-yyyy hh:mm:ss a'}} - {{event.endDate | date:'MM-dd-yyyy hh:mm:ss a'}}</b>
+
+    <div>
+    <span ng-repeat="attendee in event.attendees" ng-show= "attendee !== user.username">
+    	<a href="/#/users/{{attendee}}">{{attendee}}</a>
+    </span>
+    </div>
 
 <div>
   <button type="button" class="btn btn-primary btn-lg" ng-click="attending(event)">Attend?</button>

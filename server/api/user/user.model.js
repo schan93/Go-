@@ -15,7 +15,9 @@ var UserSchema = new Schema({
     type: String,
     default: 'user'
   },
-  eventsAttending: [{ type: String, ref: 'Event'}],
+  eventsAttending: [{ type: Schema.ObjectId, ref: 'Event'}],
+  friends:[{ username: String, invited: Boolean, pending: Boolean, requested: Boolean }],
+  img: {data: Buffer, contentType: String},
   hashedPassword: String,
   provider: String,
   salt: String,
@@ -23,9 +25,10 @@ var UserSchema = new Schema({
   twitter: {},
   github: {},
   google: {},
+  location: String,
+  aboutMe: String
 });
 
-UserSchema.set('versionKey', '_version');
 /**
  * Virtuals
  */

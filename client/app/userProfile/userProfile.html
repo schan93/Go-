@@ -1,5 +1,5 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container-fluid" style="font-family: 'Lato', sans-serif;" style="overflow:scroll">
+<div class="container-fluid" style="font-family: 'Lato', sans-serif;" style="overflow: scroll">
 <div class="col-md-2">
 <div class="fileinput fileinput-new" data-provides="fileinput">
   <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
@@ -8,36 +8,21 @@
     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
   </div>
 </div>
-  <p>
-    Friend Requests:
-  </p>
-  <label ng-repeat="friend in currentUser.friends" ng-if="friend.requested == false">
-    <input
-      type="checkbox"
-      checklist-model="selectedFriends"
-      checklist-value="friend"
-    > {{friend.username}}
-  </label>
-    <div>
-      <button type = "button" class="btn btn-primary" ng-click="addPendingFriend()" ng-class="{'btn-default': friendHelper.friendsToAdd, 'disabled': !friendHelper.friendsToAdd}">
-        {{friendHelper.friendAddText}}
-      </button>
-    </div>
+
 </div>
 <div class="col-md-10" class="information">
 
-  <h1>{{currentUser.name}}</h1>
-    <!--<button type="button" id="friendButton" class="btn btn-primary btn-lg friend" ng-class="{'btn-default': !friend.friendRequest, 'btn-success': friend.friendRequest, 'disabled': friend.friendRequest}" ng-click="friendMe()">{{friend.friendText}}</button>-->
-  <h4>{{currentUser.username}}</h4>
-  <h5>Current Resides at: {{currentUser.location}}</h5>
-  <h5>About me: {{currentUser.aboutMe}}</h5>
+  <h1>{{currentUserViewing.name}}</h1>
+    <button type="button" id="friendButton" class="btn btn-primary btn-lg friend" ng-class="{'btn-default': !friend.friendRequest, 'btn-success': friend.friendRequest, 'disabled': friend.friendRequest}" ng-click="friendMe()">{{friend.friendText}}</button>
+  <h4>{{currentUserViewing.username}}</h4>
+  <h5>Current Resides at: {{currentUserViewing.location}}</h5>
+  <h5>About me: {{currentUserViewing.aboutMe}}</h5>
   <hr>
   <span>EventsAttending: </span>
 
-<!--	<div ng-repeat="events in currentUser.eventsAttending track by $index">{{events}}</div>-->
   <table class="table table-striped table-hover"> 
     <tbody data-link = "row" class="rowlink" style="font-family: 'Lato', sans-serif;">
-      <tr ng-repeat="event in currentUser.eventsAttending track by $index">
+      <tr ng-repeat="event in currentUserViewing.eventsAttending track by $index">
           <td><a href="/#/listview/{{event._id}}"><div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div></a></td>
           <td>
             <span class="eventName">{{event.eventName}}</span>

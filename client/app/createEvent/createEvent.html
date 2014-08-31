@@ -1,60 +1,61 @@
 
 <div ng-include="'components/navbar/navbar.html'"></div>
-<!--<link type="createEvent.scss" rel="stylesheet" href="/app/createEvent/createEvent.scss" />-->
 
-<div class="container" ng-controller="CreateEventCtrl">
-      <form class="contact-us form-horizontal" method="post">
-        <fieldset>
-        <div class="form-group has-*">
-          <label class="control-label">Event Name</label>
-            
-              <div class="input-group">
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-              <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name" data-placement="right" data-trigger="focus" data-animation="am-flip-x" bs-popover="eventName">
+  <div class="container-fluid">
+  <form class="contact-us form-horizontal" method="post">
+    <fieldset>
+      <div class="form-group has-*">
+        <label class="control-label">Event Name</label>
+
+        <div class="input-group">
+          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+          <input type="text" class="form-control" name="eventName" ng-model="eventObj.eventName" placeholder="Event Name" data-placement="right" data-trigger="focus" data-animation="am-flip-x" bs-popover="eventName">
         </div>
       </div>
 
 
-<form name="timepickerForm" class="form-inline" role="form">
-  <div class="form-group has-*">
-    <label class="control-label"></i>From</label><br>
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-      <input type="text" size="10" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Date" bs-datepicker>
-        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-      <input type="text" size="8" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Time" bs-timepicker>
-    </div>
-  </div>
-
-  <form name="timepickerForm" class="form-inline" role="form">
-  <div class="form-group has-*">
-    <label class="control-label"> </i>To</label><br>
-    <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-      <input type="text" size="10" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Date" bs-datepicker>
-        <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-      <input type="text" size="8" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Time" bs-timepicker>
-    </div>
-  </div>
-
-</form>
-     
-    <!--Things we cannot do correctly:
-      highlight text we want to delete, click enter and backspace take u to home page and wipe out form-->
+      <form name="timepickerForm" class="form-inline" role="form">
         <div class="form-group has-*">
-          <label class="control-label">Event Location</label>
-            
-              <div class="input-group">
-                  <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-              <!--<input type="text" class="form-control" name="eventLocation" ng-model="eventObj.eventLocation" placeholder="Location" data-placement="right" data-trigger="focus" data-animation="am-flip-x" bs-popover="locationName">-->
-                  <google-places location="location"></google-places>
+          <label class="control-label"></i>From</label><br>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            <input type="text" size="10" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Date" bs-datepicker>
+            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            <input type="text" size="8" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Time" bs-timepicker>
+          </div>
         </div>
+
+        <form name="timepickerForm" class="form-inline" role="form">
+          <div class="form-group has-*">
+            <label class="control-label"> </i>To</label><br>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+              <input type="text" size="10" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Date" bs-datepicker>
+              <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+              <input type="text" size="8" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Time" bs-timepicker>
+            </div>
+          </div>
+        </form>
+
+    <!--Things we cannot do correctly:
+    highlight text we want to delete, click enter and backspace take u to home page and wipe out form-->
+    <div class="form-group has-*">
+      <label class="control-label">Event Location</label>
+
+      <div class="input-group">
+        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+        <google-places location="location"></google-places>
+      </div>
+    </div>
+
+    <div class="form-group has-*">
+      <button type="button" class="btn btn-primary" ng-click="addFriendsToinvite()" bs-modal="modal" content-template="app/createEvent/inviteFriendsModal.html">Invite!</button>
       </div>
 
     <div class="form-group has-*">
       <button type="submit" class="btn btn-primary" ng-click="create()">Submit</button>
     </div>
 
-    </fieldset>
-  </form>
+  </fieldset>
+</form>
 </div>

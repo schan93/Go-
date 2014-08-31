@@ -11,9 +11,13 @@ router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
-//router.get('/:id', auth.isAuthenticated(), controller.show);
+router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
-router.get('/:id', controller.getEvents);
+router.get('/events/:id', controller.getEvents);
+router.put('/:id/:username', controller.requestFriend);
+router.put('/friends/:id/:username', controller.requestPending);
+router.put('/friends/pending/confirm/:username', controller.confirmFriend);
+router.get('/users/:username', controller.getProfile);
 
 module.exports = router;

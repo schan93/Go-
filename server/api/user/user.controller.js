@@ -22,31 +22,158 @@ exports.index = function(req, res) {
   });
 };
 
-//Get Events that a user is attending 
-exports.getEvents = function(req, res) {
 
-  User.findById(req.params.id).populate('eventsAttending').exec(function(err, events){
-    if(err) {
-      console.log("Error!", err);
-      return res.send(500, err);
-    }
-//    console.log("Events Attending:", events.eventsAttending);
-    return res.json(events);
-  });
-};
 
-// Updates an existing event in the DB.
-exports.update = function(req, res) {
+exports.updateProfile = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   User.findById(req.params.id, function (err, user) {
     if (err) { return handleError(res, err); }
     if(!user) { return res.send(404); }
-    user.eventsAttending.push(req.body.eventName);
     var updated = _.merge(user, req.body);
-    updated.markModified('eventsAttending');
     updated.save(function (err) {
       if (err) { return handleError(res, err);}
       return res.json(200, user);
+    });
+  });
+};
+
+//Store an image
+exports.store = function(req, res){
+    if(req.body._id){ delete req.body._id; }
+    User.findById(req.params.id, function(err, user){
+    user.img.data = fs.readFileSync(imgPath);
+    user.img.contentType = 'image/png';
+    user.save(function (err, user) {
+      if (err) throw err;  
+    });
+  });
+};
+
+//Upload an image
+exports.upload = function(req, res, next){
+  if(req.body._id){ delete req.body._id; }
+  User.findById(req.params.id, function(err, doc){
+    if(err) return next(err);
+    res.contentType(doc.img.contentType);
+    res.send(doc.img.data);
+  });
+};
+
+//Confirm friendship
+exports.confirmFriend = function(req, res){
+  console.log("Req.body: ", req.body.username);
+  
+
+  User.findOneAndUpdate(
+    {
+        "username": req.params.username,
+        "friends.username": req.body.username
+    },
+    {
+        "$set": { "friends.$": req.body }
+    },
+    function(err,user) {
+      console.log("User: ", user);
+      user.save(function(err){
+        if(err) {return handleError(res, err);}
+          return res.json(200, user);
+      });
+       // do something with the now modified user
+
+    }
+);
+  /*if(req.body._id) {delete req.body._id}
+    User.findOne({'username': req.params.username}, function (err, user){
+      console.log("User before: ", user);
+      user.friends.map(function(friend){
+        if (friend.username == req.body.username){
+          friend = req.body;
+        }
+        return friend;
+      });
+      user.save(function (err){
+        console.log("User afteR: ", user);
+        if(err) {return handleError(res, err);}
+          return res.json(200, user);
+      });
+    });*/
+};
+
+//Make friend request pending
+exports.requestPending = function(req, res){
+  if(req.body._id) {delete req.body._id}
+    User.findOne({'username': req.params.username}, function (err, user){
+      if (err) { return handleError(res, err); }
+      if(!user) { return res.send(404); }
+      for(var i = 0; i < user.friends.length; i++){
+        if(user.friends[i].username === req.body.username){
+          console.log("Error! User has already a friend request pending with this individual!");
+          return handleError(res, err);
+        }
+      }
+      var friendObject = {
+        username: req.body.username,
+        requested: false,
+        pending: true,
+        invited: false
+      };
+    user.friends.push(friendObject);
+    user.save(function (err) {
+      if (err) { return handleError(res, err);}
+        return res.json(200, user);
+    });
+  });
+};
+
+//Makes a user a friend
+exports.requestFriend = function(req, res) {
+    if(req.body._id) { delete req.body._id; }
+    //if(req.params.id) {delete req.params.id; }
+
+    User.findOne({'username': req.params.username}, function (err, user) {
+    if (err) { return handleError(res, err); }
+    if(!user) { return res.send(404); }
+    for(var i = 0; i < user.friends.length; i++){
+      if(user.friends[i].username === req.body.username){
+        console.log("Error! User is already friends with this individual!");
+        return handleError(res, err);
+      }
+    }
+    var friendObject = {
+      username: req.body.username,
+      requested: true,
+      pending: false,
+      invited: false
+    };
+    
+    user.friends.push(friendObject);
+    user.save(function (err) {
+      if (err) { return handleError(res, err);}
+        return res.json(200, user);
+    });
+  });
+};
+
+// Updates an existing event a user is attending in the DB.
+exports.update = function(req, res) {
+    var id = req.body._id;
+    if(req.body._id) { delete req.body._id; }
+    User.findById(req.params.id, function (err, user) {
+      if (err) { return handleError(res, err); }
+      if(!user) { return res.send(404); }
+      console.log(user.eventsAttending.length);
+      for(var i = 0; i < user.eventsAttending.length; i++){
+        if(user.eventsAttending[i].toString() === id){
+          console.log("Error! User is already attending this event!");
+          return handleError(res, err);
+        }
+      }
+      user.eventsAttending.push(id);
+      var updated = _.merge(user, req.body);
+      updated.markModified('eventsAttending');
+      updated.save(function (err) {
+        if (err) { return handleError(res, err);}
+          return res.json(200, user);
     });
   });
 };
@@ -65,12 +192,36 @@ exports.create = function (req, res, next) {
   });
 };
 
+/*
+ * Get a User and get his profile when you click on the individual's link
+ */
+
+exports.getProfile = function(req, res){
+  User.findOne({'username': req.params.username}, function (err, user){
+    if(err) { return handleError(res, err); }
+    //if(!user) return res.send(401);
+    res.json(user);
+  });
+};
+
+//Get Events that a user is attending 
+exports.getEvents = function(req, res) {
+  User.findById(req.params.id).populate('eventsAttending').exec(function(err, events){
+    if(err) {
+      console.log("Error123", err);
+      return res.send(500, err);
+    }
+    return res.json(200, events);
+  });
+};
+
+
 /**
  * Get a single user
  */
 exports.show = function (req, res, next) {
   var userId = req.params.id;
-
+  console.log("Hi");
   User.findById(userId, function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);

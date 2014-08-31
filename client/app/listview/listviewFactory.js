@@ -1,26 +1,19 @@
 'use strict';
 
   angular.module('listviewService', ['ngResource', 'ngRoute']).
-          factory('listviewFactory', function($resource, $routeParams) {
-          	var eventTest = {};
+          factory('listviewFactory', function($resource, $routeParams, $http) {
+            var username = "";
 
-          	var addEvent = function(events, index){
-          			console.log("Index: ", index);
-          			eventTest = events[index];
-          	}
+            var setUser = function(user){
+              username = user;
+            };
 
-          	var getEvent = function(){
-          		return eventTest;
-          	}
+            var getUser = function(){
+              return username;
+            };
+
           	return {
-          		addEvent: addEvent,
-          		getEvent: getEvent
+              getUser: getUser,
+              setUser: setUser
           	};
-
-            /*return $resource('api/events', {}, {
-              query: { method: 'GET', isArray:true }
-            }),*/
-
-
-
           });

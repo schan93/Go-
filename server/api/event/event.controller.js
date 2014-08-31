@@ -24,7 +24,7 @@ exports.show = function(req, res) {
   Event.findById(req.params.id, function (err, event) {
     if(err) { return handleError(res, err); }
     if(!event) { return res.send(404); }
-    return res.json(event);
+    return res.json(200, event);
   });
 };
 
@@ -42,6 +42,12 @@ exports.update = function(req, res) {
   Event.findById(req.params.id, function (err, event) {
     if (err) { return handleError(res, err); }
     if(!event) { return res.send(404); }
+    for(var i = 0; i < event.attendees.length; i++){
+      if(event.attendees[i] === req.body.username){
+        console.log("Error! User is already attending this event!");
+        return handleError(res, err);
+      }
+    }
     event.attendees.push(req.body.username);
     var updated = _.merge(event, req.body);
     updated.markModified('attendees');

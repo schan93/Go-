@@ -1,0 +1,14 @@
+<div class="modal-header">
+List of Users Attending
+</div>
+<div class="modal-body">
+	<div ng-repeat="attendee in individualEvent.attendees">
+	    <div ng-if="currentUser.username === attendee"><a href="/#/profile">{{attendee}}</a></div>
+    	<div ng-if="currentUser.username !== attendee"><a href="/#/users/{{attendee}}">{{attendee}}</a></div>
+    </div>
+</div>
+<div class="modal-footer" style="margin: 15px -15px -15px;">
+
+  <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+
+</div>

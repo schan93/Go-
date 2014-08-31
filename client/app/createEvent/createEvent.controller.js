@@ -1,7 +1,9 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('CreateEventCtrl', function ($scope, $http, $location) {
+  .controller('CreateEventCtrl', function ($scope, $http, $location, Auth) {
+
+    $scope.currentUser = {};
 
     $scope.location = "";
     $scope.place ="";
@@ -12,6 +14,7 @@ angular.module('goApp')
       'eventName': "",
       'attendees': []
     };
+
     $scope.create = function(){
       $scope.eventObj.eventLocation = $scope.location;
       $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
@@ -21,6 +24,15 @@ angular.module('goApp')
         $location.path('/');
       });
     };
+
+    $http.get('/api/users/me')
+      .then(function(result){
+        $scope.currentUser = result.data;
+    });
+
+$scope.addFriendsToInvite = function(){
+  
+};
 
 $scope.eventName = {
   "title": "Event Name",

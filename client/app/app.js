@@ -7,7 +7,8 @@ angular.module('goApp', [
   'ngSanitize',
   'ngRoute',
   'mgcrea.ngStrap',
-  'listviewService'])
+  'listviewService',
+  'checklist-model'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({

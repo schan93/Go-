@@ -4,6 +4,7 @@ angular.module('goApp')
   .controller('ListviewCtrl', function (Auth, $scope, $http, $location, listviewFactory, $routeParams, $cookieStore, $modal, User, $window) {
     $scope.location = "";
     $scope.events = [];
+    $scope.individualEvent = {};
     $scope.eventId = "";
     $scope.eventObj = {
       'startDate': "",
@@ -13,12 +14,25 @@ angular.module('goApp')
       'attendees': []
     };
 
+    $scope.currentUser = {};
+
+    $scope.getEvent = function(event){
+      $scope.individualEvent = event;
+    };
+
+    $scope.comma = true;
+
+    //Set who the current user is
+    $http.get('/api/users/me')
+      .then(function(result){
+        $scope.currentUser = result.data;
+      });
+
     $scope.usersAttending = [];
     $scope.temp = [];
-    $scope.currentUser = {};
  
     $scope.usersAttendingTest = {};
-
+    //Getting All Events
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
@@ -28,11 +42,15 @@ angular.module('goApp')
       'event': true
     };
 
+    $scope.passUser = function(user){
+      listviewFactory.setUser(user);
+    };
+
     $scope.showEditEventPage = false;
 
-    $scope.grabEventData = function(events, index){
+    $scope.grabEventData = function(eventId){
       $scope.show.event = false;
-      listviewFactory.addEvent(events, index);
+      listviewFactory.addEvent(eventId);
     };
 
     // Keeping modal code in case we end up using it. We can delete it in a bit.
