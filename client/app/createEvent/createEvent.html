@@ -49,6 +49,11 @@
     </div>
 
     <div class="form-group has-*">
+      <a href="" bs-modal="modal" content-template="app/createEvent/invitedFriendsModal.html">
+      {{eventObj.invited.length}} friends invited!</a>
+    </div>
+
+    <div class="form-group has-*">
       <button type="button" class="btn btn-primary" ng-click="addFriendsToinvite()" bs-modal="modal" content-template="app/createEvent/inviteFriendsModal.html">Invite!</button>
       </div>
 

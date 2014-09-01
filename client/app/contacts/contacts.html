@@ -6,8 +6,9 @@
   	<tr>Friends!</tr>
   	</thead>
     <tbody data-link = "row" class="rowlink" style="font-family: 'Lato', sans-serif;">
-      <tr ng-repeat="friend in currentUser.friends.name track by $index">
-          <td><a href="/#/users/{{friend}}">{{friend}}</a></td>
+      <tr ng-repeat="friend in currentUser.friends track by $index" ng-if="friend.requested == true 
+          && friend.pending == true">
+          <td><a href="/#/users/{{friend.username}}">{{friend.username}}</a></td>
       </tr>
     </tbody>
   </table>

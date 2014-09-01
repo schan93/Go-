@@ -49,6 +49,7 @@ $scope.addPendingFriend = function(){
     });
     $scope.selectedFriends[i].requested = true;
   }
+  friendHelper.friendsToAdd = false;
 };
 
 

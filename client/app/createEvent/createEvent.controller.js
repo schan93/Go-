@@ -4,6 +4,7 @@ angular.module('goApp')
   .controller('CreateEventCtrl', function ($scope, $http, $location, Auth) {
 
     $scope.currentUser = {};
+    $scope.invitedFriends = [];
 
     $scope.location = "";
     $scope.place ="";
@@ -12,7 +13,8 @@ angular.module('goApp')
       'endDate': "",
       'eventLocation': "",
       'eventName': "",
-      'attendees': []
+      'attendees': [],
+      'invited': []
     };
 
     $scope.create = function(){
@@ -30,33 +32,43 @@ angular.module('goApp')
         $scope.currentUser = result.data;
     });
 
-$scope.addFriendsToInvite = function(){
-  
-};
+    $scope.addFriendsToInvite = function(){
+      $scope.eventObj.invited = [];
+      for(var i = 0; i < $scope.invitedFriends.length; i++){
+        $scope.eventObj.invited[i] = $scope.invitedFriends[i];
+      }
+      /*for(var i = 0; i < $scope.invitedFriends.length; i++){
+        $http.put('/api/events/inviteFriends/' + $scope.invitedFriends[i]._id)
+          .success(function(data){
+            console.log("Successfully added in: ", $scope.invitedFriends[i].username);
+          });
+      }*/
+    }; 
 
-$scope.eventName = {
-  "title": "Event Name",
-  "content": "e.g. Joe's Surprise Party"
-};
-$scope.startDate = {
-  "title": "Start Date",
-  "content": "e.g. 7/17/14"
-};
-$scope.startTime = {
-  "title": "Start Time",
-  "content": "e.g. 1:00 P.M."
-};
-$scope.endDate = {
-  "title": "End Date",
-  "content": "e.g. 7/17/14"
-};
-$scope.endTime = {
-  "title": "End Time",
-  "content": "e.g. 8:00 P.M."
-};
-$scope.locationName = {
-  "title": "Location",
-  "content": "e.g. 123 Madeup Street"
-};
+
+    $scope.eventName = {
+      "title": "Event Name",
+      "content": "e.g. Joe's Surprise Party"
+    };
+    $scope.startDate = {
+      "title": "Start Date",
+      "content": "e.g. 7/17/14"
+    };
+    $scope.startTime = {
+      "title": "Start Time",
+      "content": "e.g. 1:00 P.M."
+    };
+    $scope.endDate = {
+      "title": "End Date",
+      "content": "e.g. 7/17/14"
+    };
+    $scope.endTime = {
+      "title": "End Time",
+      "content": "e.g. 8:00 P.M."
+    };
+    $scope.locationName = {
+      "title": "Location",
+      "content": "e.g. 123 Madeup Street"
+    };
 
 });

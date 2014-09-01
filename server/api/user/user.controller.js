@@ -61,16 +61,13 @@ exports.upload = function(req, res, next){
 
 //Confirm friendship
 exports.confirmFriend = function(req, res){
-  console.log("Req.body: ", req.body.username);
-  
-
   User.findOneAndUpdate(
     {
-        "username": req.params.username,
-        "friends.username": req.body.username
+      "username": req.params.username,
+      "friends.username": req.body.username
     },
     {
-        "$set": { "friends.$": req.body }
+      "$set": { "friends.$": req.body }
     },
     function(err,user) {
       console.log("User: ", user);
@@ -78,8 +75,6 @@ exports.confirmFriend = function(req, res){
         if(err) {return handleError(res, err);}
           return res.json(200, user);
       });
-       // do something with the now modified user
-
     }
 );
   /*if(req.body._id) {delete req.body._id}

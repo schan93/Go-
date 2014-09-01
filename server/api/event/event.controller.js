@@ -19,6 +19,26 @@ exports.getUsers = function(req, res) {
   });
 };
 
+exports.inviteFriends = function(req, res) {
+  Event.findById(req.params.id, function (err, event) {
+    if(err) {return handleError(res, err); }
+    if(!event) {return res.send(404); }
+    for(var i = 0; i < event.invited.length; i++){
+      if(event.invited[i] === req.body.username){
+        console.log("Error! User is already invited to this event!");
+        return handleError(res, err);
+      }
+    }
+    event.invited.push(req.body.username);
+    var updated = _.merge(event, req.body);
+    updated.markModified('invited');
+    updated.save(function (err) {
+      if(err) { return handleError(res, err); }
+      return res.json(200, event);
+    });
+  });
+}
+
 // Get a single event
 exports.show = function(req, res) {
   Event.findById(req.params.id, function (err, event) {
@@ -31,12 +51,13 @@ exports.show = function(req, res) {
 // Creates a new event in the DB.
 exports.create = function(req, res) {
   Event.create(req.body, function(err, event) {
+    console.log("Event: ", event);
     if(err) { return handleError(res, err); }
     return res.json(201, event);
   });
 };
 
-// Updates an existing event in the DB.
+// Update an event to have an attendee
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
   Event.findById(req.params.id, function (err, event) {

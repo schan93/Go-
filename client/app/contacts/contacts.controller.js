@@ -6,5 +6,5 @@ angular.module('goApp')
   	$http.get('/api/users/me')
   	  .then(function(result){
   	    $scope.currentUser = result.data;
-  		});
+  	});
   });

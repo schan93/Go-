@@ -8,7 +8,8 @@ var EventSchema = new Schema({
  	endDate: Date,
  	eventLocation: String,
  	eventName: String,
- 	attendees: [{type: String, ref: 'User'}]
+ 	attendees: [{type: String, ref: 'User'}],
+ 	invited: [{type: String, ref: 'User'}]
 });
 
 

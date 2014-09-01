@@ -19,7 +19,7 @@
     > {{friend.username}}
   </label>
     <div>
-      <button type = "button" class="btn btn-primary" ng-click="addPendingFriend()" ng-class="{'btn-default': friendHelper.friendsToAdd, 'disabled': !friendHelper.friendsToAdd}">
+      <button type = "button" class="btn btn-primary" ng-click="addPendingFriend()" ng-class="{'btn-default': friendHelper.friendsToAdd, 'disabled': !friendHelper.friendsToAdd || selectedFriends.length === 0}">
         {{friendHelper.friendAddText}}
       </button>
     </div>
