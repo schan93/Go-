@@ -1,15 +1,35 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container-fluid">
+<div class="container-fluid" style="font-family: 'Lato', sans-serif;">
   <table class="table table-striped table-hover"> 
   	<thead>
-  	<tr>Friends!</tr>
-  	</thead>
-    <tbody data-link = "row" class="rowlink" style="font-family: 'Lato', sans-serif;">
-      <tr ng-repeat="friend in currentUser.friends track by $index" ng-if="friend.requested == true 
-          && friend.pending == true">
-          <td><a href="/#/users/{{friend.username}}">{{friend.username}}</a></td>
-      </tr>
-    </tbody>
-  </table>
+     <!--<tr>Friends!</tr>-->
+   </thead>
+   <br/>
+   <tr>Friends:</tr>
+   <tbody data-link = "row" class="rowlink">
+    <tr ng-repeat="friend in currentUser.friends track by $index" ng-if="friend.requested == true 
+    && friend.pending == true">
+    <td><a href="/#/users/{{friend.username}}">{{friend.username}}</a></td>
+    </tr>
+</tbody>
+</table>
+
+<table class="table table-striped table-hover">
+  <thead>
+  </thead>
+  <br/>
+  <tr>Pending Friend Requests: </tr>
+  <tbody data-link="row" class="rowlink">
+    <tr ng-repeat="friend in currentUser.friends track by $index" ng-if="friend.requested == false">
+      <td><a href="/#/users/{{friend.username}}">{{friend.username}}</a></td>
+      <td class="rowlink-skip"><input type="checkbox" checklist-model="selectedFriends" 
+        checklist-value="friend">
+      </td>
+    </tr>
+  </tbody>
+</table>
+  <button type = "button" class="btn btn-primary" ng-click="addPendingFriend()" ng-class="{'btn-default': friendHelper.friendsToAdd, 'disabled': !friendHelper.friendsToAdd || selectedFriends.length === 0}"> 
+  {{friendHelper.friendAddText}}
+  </button>
 </div>

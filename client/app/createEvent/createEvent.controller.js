@@ -14,23 +14,28 @@ angular.module('goApp')
       'eventLocation': "",
       'eventName': "",
       'attendees': [],
-      'invited': []
-    };
-
-    $scope.create = function(){
-      $scope.eventObj.eventLocation = $scope.location;
-      $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
-      $scope.eventObj.endDate = Date.parse($scope.eventObj.endDate);
-      $http.post('/api/events', $scope.eventObj).
-      success(function(data){
-        $location.path('/');
-      });
+      'invited': [],
+      'creator': ""
     };
 
     $http.get('/api/users/me')
       .then(function(result){
         $scope.currentUser = result.data;
     });
+
+
+    $scope.create = function(){
+      $scope.eventObj.eventLocation = $scope.location;
+      $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
+      $scope.eventObj.endDate = Date.parse($scope.eventObj.endDate);
+      $scope.eventObj.creator = $scope.currentUser.username;
+      $http.post('/api/events', $scope.eventObj).
+      success(function(data){
+        $location.path('/');
+      });
+    };
+
+
 
     $scope.addFriendsToInvite = function(){
       $scope.eventObj.invited = [];

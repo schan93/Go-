@@ -58,17 +58,6 @@ $scope.addPendingFriend = function(){
       $scope.individualEvent = event;
     }
 
-    $scope.friendMe = function(){
-      $scope.friend.friendRequest = true;
-      $scope.friend.friendText = "Friend Request Sent!"
-
-      $http.put('/api/users/' + $scope.user._id + "/" + $scope.user.username, $scope.user)
-        .success(function(data) {
-          console.log("Success. Friend " + $scope.user.username + " was edited.");
-        });
-    };
-
-
   })
   .directive('contenteditable', function(){
   	return {
