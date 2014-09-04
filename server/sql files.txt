@@ -1,0 +1,8 @@
+THIS IS HOW I CREATED THE SQL DATABASE:
+
+create database go_dev;
+
+CREATE TABLE Users(
+
+);
+

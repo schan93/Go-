@@ -11,9 +11,17 @@ exports.index = function(req, res) {
   });
 };
 
+exports.getInvitedEvents = function(req, res){
+  console.log("Req.body: ", req.body);
+  /*Events.find({"invited": {$elemMatch: {username: req.body.username}}}, function (err, events){
+    if(err) return handleError(err);
+    return res.json(200, events);
+  });*/
+}
+
 //Find users that are attending an Event
 exports.getUsers = function(req, res) {
-  Event.findById(req.params.id).populate('attendees').exec(function(err, users){
+  Event.findById(req.params.id).populate('attendees').exec(function (err, users){
     if(err) return handleError(err);
     return res.json(users.attendees)
   });
@@ -29,7 +37,10 @@ exports.inviteFriends = function(req, res) {
         return handleError(res, err);
       }
     }
-    event.invited.push(req.body.username);
+    var invitedObj = {
+      username: req.body.username
+    };
+    event.invited.push(invitedObj);
     var updated = _.merge(event, req.body);
     updated.markModified('invited');
     updated.save(function (err) {
@@ -92,5 +103,6 @@ exports.destroy = function(req, res) {
 };
 
 function handleError(res, err) {
+  console.log("Error: ", err);
   return res.send(500, err);
 }

@@ -1,26 +1,27 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('ListviewCtrl', function (Auth, $scope, $http, $location, listviewFactory, $routeParams, $cookieStore, $modal, User, $window) {
+  .controller('ListviewCtrl', function (Auth, $scope, $http, $location, listviewService, $routeParams, $cookieStore, $modal, User, $window) {
     $scope.location = "";
     $scope.events = [];
     $scope.individualEvent = {};
     $scope.eventId = "";
+    $scope.showEditEventPage = false;
     $scope.eventObj = {
       'startDate': "",
       'endDate': "",
       'eventLocation': "",
       'eventName': "",
-      'attendees': []
-    };
-
+      'attendees': [],
+      'invited': [],
+      'creator': ""
+    };  
+    
     $scope.currentUser = {};
 
     $scope.getEvent = function(event){
       $scope.individualEvent = event;
     };
-
-    $scope.comma = true;
 
     //Set who the current user is
     $http.get('/api/users/me')
@@ -38,15 +39,10 @@ angular.module('goApp')
         $scope.events = data;
       });
 
-    $scope.show = {
-      'event': true
-    };
-
     $scope.passUser = function(user){
       listviewFactory.setUser(user);
     };
 
-    $scope.showEditEventPage = false;
 
     $scope.grabEventData = function(eventId){
       $scope.show.event = false;

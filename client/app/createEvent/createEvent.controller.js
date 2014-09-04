@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('CreateEventCtrl', function ($scope, $http, $location, Auth) {
+  .controller('CreateEventCtrl', function ($scope, $http, $location, Auth, listviewService) {
 
+    $scope.showEditEventPage = false;//listviewService.getEditEventPage();
     $scope.currentUser = {};
     $scope.invitedFriends = [];
 
@@ -24,15 +25,19 @@ angular.module('goApp')
     });
 
 
-    $scope.create = function(){
+    $scope.createForm = function(isValid){
       $scope.eventObj.eventLocation = $scope.location;
       $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
       $scope.eventObj.endDate = Date.parse($scope.eventObj.endDate);
       $scope.eventObj.creator = $scope.currentUser.username;
+      console.log("$scope.eventObj: ", $scope.eventObj);
       $http.post('/api/events', $scope.eventObj).
       success(function(data){
         $location.path('/');
       });
+      if(isValid){
+        alert('Event successfully created!');
+      }
     };
 
 
@@ -40,7 +45,9 @@ angular.module('goApp')
     $scope.addFriendsToInvite = function(){
       $scope.eventObj.invited = [];
       for(var i = 0; i < $scope.invitedFriends.length; i++){
-        $scope.eventObj.invited[i] = $scope.invitedFriends[i];
+        var friendObj = {username: ""};
+        friendObj.username = $scope.invitedFriends[i].username;
+        $scope.eventObj.invited.push(friendObj);
       }
       /*for(var i = 0; i < $scope.invitedFriends.length; i++){
         $http.put('/api/events/inviteFriends/' + $scope.invitedFriends[i]._id)

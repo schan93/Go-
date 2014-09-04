@@ -1,57 +1,35 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
-<div class="container-fluid" style="font-family: 'Lato', sans-serif;" style="overflow:scroll">
-<div class="col-md-2">
-<div class="fileinput fileinput-new" data-provides="fileinput">
-  <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
-  <div style="text-align:center">
-    <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
-    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-  </div>
-</div>
-  <!--<p>
-    Friend Requests:
-  </p>
-  <label ng-repeat="friend in currentUser.friends" ng-if="friend.requested == false">
-    <input
-      type="checkbox"
-      checklist-model="selectedFriends"
-      checklist-value="friend"
-    > {{friend.username}}
-  </label>
-    <div>
-      <button type = "button" class="btn btn-primary" ng-click="addPendingFriend()" ng-class="{'btn-default': friendHelper.friendsToAdd, 'disabled': !friendHelper.friendsToAdd || selectedFriends.length === 0}">
-        {{friendHelper.friendAddText}}
-      </button>
+<div class="container" ng-hide="showEditEventPage" style="font-family: 'Lato', sans-serif;">
+  <div class="page-header"><h1><b>Welcome {{currentUser.username}}!</b></h1></div>
+    <!-- <div class="fileinput fileinput-new" data-provides="fileinput">
+      <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+      <div style="text-align:center">
+        <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="..."></span>
+        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+      </div>
     </div>-->
-</div>
-<div class="col-md-10" class="information">
+    <h5>Current Resides at: {{currentUser.location}}</h5>
+    <h5>About me: {{currentUser.aboutMe}}</h5>
 
-  <h1>{{currentUser.name}}</h1>
-    <!--<button type="button" id="friendButton" class="btn btn-primary btn-lg friend" ng-class="{'btn-default': !friend.friendRequest, 'btn-success': friend.friendRequest, 'disabled': friend.friendRequest}" ng-click="friendMe()">{{friend.friendText}}</button>-->
-  <h4>{{currentUser.username}}</h4>
-  <h5>Current Resides at: {{currentUser.location}}</h5>
-  <h5>About me: {{currentUser.aboutMe}}</h5>
-  <hr>
-  <span>EventsAttending: </span>
-
-<!--	<div ng-repeat="events in currentUser.eventsAttending track by $index">{{events}}</div>-->
-  <table class="table table-striped table-hover"> 
-    <tbody data-link = "row" class="rowlink" style="font-family: 'Lato', sans-serif;">
-      <tr ng-repeat="event in currentUser.eventsAttending track by $index">
+    <table class="table table-striped table-hover"> 
+      <tbody data-link = "row" class="rowlink">
+        <tr ng-repeat="event in currentUser.eventsAttending track by $index">
           <td><a href="/#/listview/{{event._id}}"><div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div></a></td>
           <td>
             <span class="eventName">{{event.eventName}}</span>
             <span class="eventLocation">{{event.eventLocation}}</span>
           </td>
-            <td class="rowlink-skip">
-              <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
-              <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
-              <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
-              <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event, $index)">Attend?</button></span>
-              <span class="rowlink-skip eventAttendees" bs-modal="modal" content-template="app/listview/viewAttendees.html" ng-click="getEvent(event)"><a href = "">Attendees:</a> {{event.attendees.length}}</span>
-            </td>
-      </tr>
-    </tbody>
-  </table>
+          <td class="rowlink-skip">
+            <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
+            <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
+            <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
+            <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event, $index)">Attend?</button></span>
+            <span class="rowlink-skip eventAttendees" bs-modal="modal" content-template="app/listview/viewAttendees.html" ng-click="getEvent(event)"><a href = "">Attendees:</a> {{event.attendees.length}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
 </div>
+<div ng-show="showEditEventPage" ng-include="'app/listview/editEvent.html'">
 </div>

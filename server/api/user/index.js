@@ -19,5 +19,6 @@ router.put('/:id/:username', controller.requestFriend);
 router.put('/friends/:id/:username', controller.requestPending);
 router.put('/friends/pending/confirm/:username', controller.confirmFriend);
 router.get('/users/:username', controller.getProfile);
+router.get('/individualUser/:username', controller.getUserId);
 
 module.exports = router;

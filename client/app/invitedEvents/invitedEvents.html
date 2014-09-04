@@ -1,0 +1,30 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container-fluid">
+  <table class="table table-striped table-hover"> 
+    <thead>
+      <tr>
+      <form class="form-horizontal">
+        <input id="textinput" name="textinput" placeholder="Search" class="form-control example-animate-container" type="text" ng-model="searchText"/>
+      </form></br>
+      </tr>
+    </thead>
+
+    <tbody data-link = "row" class="rowlink" style="font-family: 'Lato', sans-serif;">
+      <tr ng-repeat="event in events | filter:searchText">
+          <td><a href="/#/listview/{{event._id}}"><div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div></a></td>
+          <td>
+            <span class="eventName">{{event.eventName}}</span>
+            <span class="eventLocation">{{event.eventLocation}}</span>
+          </td>
+            <td class="rowlink-skip">
+              <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
+              <span class="deleteButton rowlink-skip"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent($index)"><span class="glyphicon glyphicon-trash"></span></button></span> 
+              <span class="editButton rowlink-skip"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent($index); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
+              <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event, $index)">Attend?</button></span>
+              <span class="rowlink-skip eventAttendees" bs-modal="modal" content-template="app/listview/viewAttendees.html" ng-click="getEvent(event)"><a href = "">Attendees:</a> {{event.attendees.length}}</span>
+            </td>
+      </tr>
+    </tbody>
+  </table>
+  </div>

@@ -22,6 +22,13 @@ exports.index = function(req, res) {
   });
 };
 
+exports.getUserId = function(req, res) {
+  User.findOne({'username': req.params.username}, function (err, user){
+    if(err) return res.send(500, err);
+    res.json(user._id);
+  });
+};
+
 
 
 exports.updateProfile = function(req, res) {
@@ -259,6 +266,7 @@ exports.changePassword = function(req, res, next) {
 /**
  * Get my info
  */
+
 exports.me = function(req, res, next) {
   var userId = req.user._id;
   User.findOne({
