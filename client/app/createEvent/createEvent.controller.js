@@ -8,6 +8,7 @@ angular.module('goApp')
     $scope.invitedFriends = [];
 
     $scope.location = "";
+    $scope.locationCoords = {};
     $scope.place ="";
     $scope.eventObj = {
       'startDate': "",
@@ -16,7 +17,9 @@ angular.module('goApp')
       'eventName': "",
       'attendees': [],
       'invited': [],
-      'creator': ""
+      'creator': "",
+      'eventLocationLat': 0,
+      'eventLocationLng': 0
     };
 
     $http.get('/api/users/me')
@@ -27,6 +30,8 @@ angular.module('goApp')
 
     $scope.createForm = function(isValid){
       $scope.eventObj.eventLocation = $scope.location;
+      $scope.eventObj.eventLocationLat = $scope.locationCoords.latitude;
+      $scope.eventObj.eventLocationLng = $scope.locationCoords.longitude;
       $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
       $scope.eventObj.endDate = Date.parse($scope.eventObj.endDate);
       $scope.eventObj.creator = $scope.currentUser.username;

@@ -10,7 +10,9 @@ var EventSchema = new Schema({
  	eventName: String,
  	attendees: [{type: String, ref: 'User'}],
  	invited: [{username: String}],
- 	creator: String
+ 	creator: String,
+  eventLocationLat: Number,
+  eventLocationLng: Number
 });
 
 

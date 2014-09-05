@@ -8,7 +8,8 @@ angular.module('goApp', [
   'ngRoute',
   'mgcrea.ngStrap',
   'listviewService',
-  'checklist-model'])
+  'checklist-model',
+  'google-maps'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({

@@ -1,8 +1,21 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <div class="col-md-12">
-    <google-places location=location></google-places>
-    <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
+  <div class="row">
+    <div class="col-md-12">
+      <google-places ng-model="location" location="location" coords="locationCoords"></google-places>
+      <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
+      <button type="button" class="btn btn-default" ng-click="displayMarkers()">Display Markers</button>
+    </div>
+  </div>
+  <div class="row">
+    <google-map center="mapObj.center" options="mapObj.options" zoom="mapObj.zoom" pan="true" draggable="true" bounds="mapObj.bounds" control="googleMapObj">
+      <markers models="markerObjs" coords="'self'" click="'onClick'">
+        <windows show="show">
+          <div ng-non-bindable>{{title}}</div>
+        </windows>
+      </markers>
+    </google-map>
+    <!-- <div id="map_canvas"></div> -->
   </div>
 </div>
