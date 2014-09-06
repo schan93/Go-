@@ -7,7 +7,7 @@ angular.module('goApp')
       replace:true,
       // require: 'ngModel',
       // transclude:true,
-      scope: {ngModel:'=', location:'=', coords:'=?'},
+      scope: {ngModel:'=?', location:'=', coords:'=?'},
       template: '<input id="google_places_ac" class="form-control" name="google_places_ac"/>',
       link: function($scope, elm, attrs){
         $scope.coords = {

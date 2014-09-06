@@ -95,7 +95,7 @@
 
     <div class="form-group">
       <label>Location</label>
-      <google-places location="location"></google-places>
+      <google-places ng-model="eventObj.eventLocation" location="location" coords="locationCoords"></google-places>
       <p ng-show="editEventForm.google_places_ac.$invalid && !editEventForm.google_places_ac.$pristine" class="help-block">A Location is required.</p>
     </div>
 
