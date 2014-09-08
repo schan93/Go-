@@ -8,7 +8,11 @@ angular.module('goApp', [
   'ngRoute',
   'mgcrea.ngStrap',
   'listviewService',
-  'checklist-model'])
+  'checklist-model',
+  'ui.bootstrap.dropdown',
+  'ui.bootstrap.timepicker',
+  'ui.bootstrap.position',
+  'dateParser'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({
@@ -49,7 +53,7 @@ angular.module('goApp', [
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$routeChangeStart', function (event, next) {
       if (next.authenticate && !Auth.isLoggedIn()) {
-        $location.path('/login');
+        $location.path('/');
       }
     });
   });

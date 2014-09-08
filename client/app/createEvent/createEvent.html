@@ -2,13 +2,15 @@
 
 <div class="container" style="font-family: 'Lato', sans-serif;">
   <div class="page-header"><h1><b>Create Event</b></h1></div>
-  <form name="createEventForm" ng-submit="createForm(createEventForm.$valid)" novalidate>
+  <form name="createEventForm" ng-submit="createForm(createEventForm.$valid) && createEventForm.$valid" novalidate>
 
     <!-- Event Name -->
-    <div class="form-group">
+    <div class="form-group" ng-class="{ 'has-error' : (createEventForm.eventName.$error.required && submitted) || (createEventForm.eventName.$error.minlength && submitted)}">
       <label>Event Name</label>
-      <input type="text" name="eventName" class="form-control" ng-model="eventObj.eventName" placeholder="Event Name" required>
-      <p ng-show="createEventForm.eventName.$invalid && !createEventForm.eventName.$pristine" class="help-block">An Event Name is required.</p>
+      <input type="text" name="eventName" class="form-control" ng-minlength="3" ng-maxlength="50" ng-model="eventObj.eventName" placeholder="Event Name" required>
+      <div class="text-danger" ng-show="createEventForm.eventName.$error.minlength && submitted" class="help-block">Event Name should be greater than 3 characters long.</div>
+      <div class="text-danger" ng-show="submitted && createEventForm.eventName.$error.required" class="help-block">Please enter in an Event Name.</div>
+
     </div>
 
     <!-- Event Start -->
@@ -16,30 +18,35 @@
     <label class="col-sm-offset-5">End</label>
 
     <div class="form-inline">
-      <div class="form-group">
-       <input type="text" size="17" name="startDate" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Date" bs-datepicker required>
-       <input type="text" size="17" name="startTime" class="form-control" ng-model="eventObj.startDate" data-autoclose="1" placeholder="Time" bs-timepicker required>
-       <p ng-show="createEventForm.startDate.$invalid && !createEventForm.startDate.$pristine" class="help-block">A Start Date is required.</p>
-       <p ng-show="createEventForm.startTime.$invalid && !createEventForm.startTime.$pristine" class="help-block">A Start Time is required.</p>
-     </div>
+      <div class="form-group" ng-class="{ 'has-error' : (createEventForm.startDate.$error.required && submitted)}">
+       <input placeholder="Start Date" data-mask="99/99/99" type="text" name="startDate" ng-model="eventObj.startDate" class="form-control" date-parser="shortDate" required/>
+      </div>
+      <div class="form-group" ng-class="{ 'has-error' : (createEventForm.startTime.$error.required && submitted)}">
+       <input type="text" size="17" name="startTime" ng-model="eventObj.startTime" placeholder="Start Time" dn-timepicker class="form-control" required/>
+      </div>
 
-     <!-- Event End -->
-     <div class="form-group" style="padding-left:7px">
-       <input type="text" size="17" name="endDate" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Date" bs-datepicker required>
-       <input type="text" size="17" name="endTime" class="form-control" ng-model="eventObj.endDate" data-autoclose="1" placeholder="Time" bs-timepicker required>
-       <p ng-show="createEventForm.endDate.$invalid && !createEventForm.endDate.$pristine" class="help-block">An End Date is required.</p>
-       <p ng-show="createEventForm.endTime.$invalid && !createEventForm.endTime.$pristine" class="help-block">An Time is required.</p>
+       <!-- Event End -->
+       <div class="form-group" style="padding-left:7px" ng-class="{ 'has-error' : (createEventForm.endDate.$error.required && submitted)}">
+         <input placeholder="End Date" type="text" name="endDate" ng-model="eventObj.endDate" class="form-control" date-parser="shortDate" required/>
+       </div>
+       <div class="form-group" ng-class="{ 'has-error' : (createEventForm.endTime.$error.required && submitted)}">  
+         <input type="text" size="17" name="endTime" ng-model="eventObj.endTime" placeholder="Start Time" dn-timepicker class="form-control" required/>
+       </div>
+       <div class="text-danger" ng-show="submitted && createEventForm.startDate.$error.required">Please enter a valid Start Date.</div>      
+       <div class="text-danger" ng-show="submitted && createEventForm.startTime.$error.required">Please enter a valid Start Time.</div>
+       <div class="text-danger" ng-show="submitted && createEventForm.endDate.$error.required">Please enter a valid End Date.</div>
+       <div class="text-danger" ng-show="submitted && createEventForm.endTime.$error.required">Please enter a valid End Time.</div>
+
      </div>
-   </div>
 
    <!--Oddly enough the form needs some spacing in between location and event time/location so this is here-->
    <div class="form-group">
    </div>
 
-    <div class="form-group">
+    <div class="form-group" ng-class="{ 'has-error' : createEventForm.location.$error.required && submitted}">
       <label>Location</label>
       <google-places location="location"></google-places>
-      <p ng-show="createEventForm.google_places_ac.$invalid && !createEventForm.google_places_ac.$pristine" class="help-block">A Location is required.</p>
+      <div class="text-danger" ng-show="submitted && createEventForm.location.$error.required" class="help-block">Please enter in a location.</div>
     </div>
 
     <div class="form-group">
@@ -52,66 +59,6 @@
       </div>
 
     <div class="form-group">
-      <button type="submit" class="form-control btn btn-success" ng-disabled="createEventForm.$invalid">Submit</button>
+      <button type="submit" class="form-control btn btn-success" >Submit</button>
     </div>
-
-        <!--<google-places location="location"></google-places>-->
-  <!--<form class="contact-us form-horizontal" name="createEventForm" ng-submit="create()" method="post" novalidate>
-      <div class="form-group has-*" ng-class="{ 'has-error' : createEventForm.eventName.$invalid && !createEventForm.eventName.$pristine }">
-        <label class="control-label">Event Name</label>
-
-        <div class="input-group" >
-          <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-          <input type="text" class="form-control" name="eventName" ng-model="createEventForm.eventName" placeholder="Event Name" data-placement="right" data-trigger="focus" data-animation="am-flip-x" bs-popover="eventName"
-          ng-minlength="3" ng-maxlength="8" required>
-          <p ng-show="createEventForm.eventName.$invalid && !createEventForm.eventName.$pristine" class="help-block">An event name is required.</p>
-          <p ng-show="createEventForm.eventName.$error.minlength" class="help-block">eventName is too short.</p>
-          <p ng-show="createEventForm.eventName.$error.maxlength" class="help-block">eventName is too long.</p>
-        </div>
-      </div>
-
-
-        <div class="form-group has-*">
-          <label class="control-label"></i>From</label><br>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-            <input type="text" size="10" class="form-control" ng-model="createEventForm.startDate" data-autoclose="1" placeholder="Date" bs-datepicker required>
-            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-            <input type="text" size="8" class="form-control" ng-model="createEventForm.startDate" data-autoclose="1" placeholder="Time" bs-timepicker required>
-          </div>
-        </div>
-
-          <div class="form-group has-*">
-            <label class="control-label"> </i>To</label><br>
-            <div class="input-group">
-              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-              <input type="text" size="10" class="form-control" ng-model="createEventForm.endDate" data-autoclose="1" placeholder="Date" bs-datepicker required>
-              <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-              <input type="text" size="8" class="form-control" ng-model="createEventForm.endDate" data-autoclose="1" placeholder="Time" bs-timepicker required>
-            </div>
-          </div>
-
-    <div class="form-group has-*">
-      <label class="control-label">Event Location</label>
-
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-        <google-places location="location"></google-places>
-      </div>
-    </div>
-
-    <div class="form-group has-*">
-      <a href="" bs-modal="modal" content-template="app/createEvent/invitedFriendsModal.html" ng-show="createEventForm.invited.length > 0">
-      {{createEventForm.invited.length}} friends invited!</a>
-    </div>
-
-    <div class="form-group has-*">
-      <button type="button" class="btn btn-primary" ng-click="addFriendsToinvite()" bs-modal="modal" content-template="app/createEvent/inviteFriendsModal.html">Invite!</button>
-      </div>
-
-    <div class="form-group has-*">
-      <button type="submit" class="btn btn-primary" ng-disabled="createEventForm.$invalid">Submit</button>
-    </div>
-
-</form>-->
 </div>

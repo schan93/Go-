@@ -16,6 +16,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   eventsAttending: [{ type: Schema.ObjectId, ref: 'Event'}],
+  eventsInvited: [{type: Schema.ObjectId, ref: 'Event'}],
   friends:[{ username: String, invited: Boolean, pending: Boolean, requested: Boolean }],
   img: {data: Buffer, contentType: String},
   hashedPassword: String,

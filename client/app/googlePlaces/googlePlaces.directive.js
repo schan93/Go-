@@ -7,7 +7,7 @@ angular.module('goApp')
       replace:true,
       // transclude:true,
       scope: {location:'='},
-      template: '<input id="google_places_ac" class="form-control" name="google_places_ac"/>',
+      template: '<input type="text" id="google_places_ac" name="location" class="form-control" required/>',
       link: function($scope, elm, attrs){
         var autocomplete = new google.maps.places.Autocomplete($("#google_places_ac")[0], {});
         google.maps.event.addListener(autocomplete, 'place_changed', function() {

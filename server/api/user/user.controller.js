@@ -5,6 +5,7 @@ var passport = require('passport');
 var config = require('../../config/environment');
 var jwt = require('jsonwebtoken');
 var _ = require('lodash');
+var mongoose = require('mongoose');
 
 
 var validationError = function(res, err) {
@@ -25,10 +26,39 @@ exports.index = function(req, res) {
 exports.getUserId = function(req, res) {
   User.findOne({'username': req.params.username}, function (err, user){
     if(err) return res.send(500, err);
-    res.json(user._id);
+    res.send(user);
   });
 };
 
+exports.getInvitedEvents = function(req, res) {
+  User.findById(req.params.id).populate('eventsInvited').exec(function(err, events){
+    if(err) {
+      return res.send(500, err);
+    }
+    return res.json(200, events.eventsInvited);
+  });
+}
+
+//Set the Events that a User is invited to
+exports.setInvitedEvents = function(req, res) {
+  User.findOne({'username': req.params.username}, function (err, user){
+    if(err) {return handleError(res, err);}
+    if(!user) {return res.send(404); }
+    for(var i = 0; i < user.eventsInvited.length; i++){
+      if(user.eventsInvited[i] === req.body){
+        console.log("Error! User has already been invited to this event!");
+        return handleError(res, err);
+      }
+    }
+    user.eventsInvited.push(req.body._id)
+    user.save(function (err) {
+      if (err) { return handleError(res, err);}
+      return res.json(200, user);
+    });
+
+
+  });
+}
 
 
 exports.updateProfile = function(req, res) {
@@ -210,7 +240,6 @@ exports.getProfile = function(req, res){
 exports.getEvents = function(req, res) {
   User.findById(req.params.id).populate('eventsAttending').exec(function(err, events){
     if(err) {
-      console.log("Error123", err);
       return res.send(500, err);
     }
     return res.json(200, events);

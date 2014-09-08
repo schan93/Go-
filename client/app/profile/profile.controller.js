@@ -10,6 +10,8 @@ angular.module('goApp')
   $scope.eventObj = {
     'startDate': "",
     'endDate': "",
+    'startTime': "",
+    'endTime': "",
     'eventLocation': "",
     'eventName': "",
     'attendees': [],
@@ -36,7 +38,7 @@ angular.module('goApp')
 //Pending = I have a friend request pending
 //Requested = I have requested someone to be my friend
 
-$scope.addPendingFriend = function(){
+/*$scope.addPendingFriend = function(){
   console.log("$selected freinds length: ", $scope.selectedFriends.length);
   for(var i = 0; i < $scope.selectedFriends.length; i++){
     $http.put('/api/users/friends/pending/confirm/' + $scope.user.username, $scope.selectedFriends[i])
@@ -58,7 +60,7 @@ $scope.addPendingFriend = function(){
     $scope.selectedFriends[i].requested = true;
   }
   friendHelper.friendsToAdd = false;
-};
+};*/
 
 $scope.editEvent = function(id) {
   $scope.eventObj.eventName = $scope.currentUser.eventsAttending[id].eventName;

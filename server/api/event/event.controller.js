@@ -11,14 +11,6 @@ exports.index = function(req, res) {
   });
 };
 
-exports.getInvitedEvents = function(req, res){
-  console.log("Req.body: ", req.body);
-  /*Events.find({"invited": {$elemMatch: {username: req.body.username}}}, function (err, events){
-    if(err) return handleError(err);
-    return res.json(200, events);
-  });*/
-}
-
 //Find users that are attending an Event
 exports.getUsers = function(req, res) {
   Event.findById(req.params.id).populate('attendees').exec(function (err, users){

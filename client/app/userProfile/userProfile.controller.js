@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('goApp')
-.controller('UserProfileCtrl', function ($scope, $cookieStore, User, Auth, $http, listviewService, $routeParams) {
+.controller('UserProfileCtrl', function ($scope, $cookieStore, User, Auth, $http, listviewService, $q, $routeParams) {
 
   $scope.username = $routeParams.username;
   $scope.user = {};
@@ -21,6 +21,8 @@ angular.module('goApp')
     'invited': [],
     'creator': ""
   };
+  $scope.currentUserViewing = {};
+  $scope.events  = [];
 
   $scope.getEvent = function(event){
     $scope.individualEvent = event;
@@ -29,13 +31,11 @@ angular.module('goApp')
     $scope.showEditEventPage = true;
     //editEventModal.$promise.then(editEventModal.show);
   };
-    
-  $scope.currentUserViewing = {};
-  $scope.events  = [];
 
   $http.get('/api/users/me')
     .then(function(result){
       $scope.user = result.data;
+      console.log("User: ", $scope.user);
   });
 
   $http.get('/api/users/users/' + $scope.username)
@@ -49,6 +49,20 @@ angular.module('goApp')
           $scope.currentUserViewing = data;
         }); 
     });
+
+
+  $scope.alreadyFreinds = function(){
+    console.log("Friends!");
+    for(var i = 0; i < $scope.user.friends.length; i++){
+          console.log("test:", $scope.user.friends[i]);
+          console.log("Real current: ", $scope.realCurrentUserViewing.username);
+      if($scope.user.friends[i].username === $scope.realCurrentUserViewing.username && 
+        $scope.user.friends[i].requested == true && $scope.user.friends[i].pending == true){
+        return true;
+      }
+    }
+  };
+
 
 
   $scope.editEvent = function(id) {
