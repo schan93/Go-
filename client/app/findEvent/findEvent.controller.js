@@ -105,6 +105,10 @@ angular.module('goApp')
       // if searching again, need to clear previous values
       $scope.parsed = [];
       $scope.searchResults=[];
+      $scope.markerObjs.splice(1,$scope.markerCount-1);
+      $scope.markerCount = 1;
+
+      
 
       $scope.promise = calculateDistance();
       $scope.promise.then(
@@ -130,18 +134,30 @@ angular.module('goApp')
             }
           }
 
+          $scope.googleMapObj.getGMap().setCenter(new google.maps.LatLng($scope.markerObjs[0].latitude, $scope.markerObjs[0].longitude));
+          $scope.googleMapObj.getGMap().setZoom(19);
+
           // Extract events that match search criteria (distance)
+          var markers = [];
           for(var i = 0; i < $scope.parsed.length; i++) {
-            if($scope.selectedIcon !== 51) {
-              if($scope.parsed[i].distanceValue <= $scope.selectedIcon)
-                $scope.searchResults.push($scope.eventsWLocation[i]);
-            }
-            else {
-              if($scope.parsed[i].distanceValue > $scope.selectedIcon - 1) {
-                $scope.searchResults.push($scope.eventsWLocation[i]);
+            if(($scope.selectedIcon < 51 && $scope.parsed[i].distanceValue <= $scope.selectedIcon)
+              || ($scope.selectedIcon >= 51 && $scope.parsed[i].distanceValue > $scope.selectedIcon - 1)) {
+              $scope.searchResults.push($scope.eventsWLocation[i]);
+
+              var latitude = $scope.eventsWLocation[i].eventLocationLat,
+                  longitude = $scope.eventsWLocation[i].eventLocationLng;
+              var point = new google.maps.LatLng(latitude, longitude);
+              var marker = $scope.createMarker(++$scope.markerCount, latitude, longitude);
+              marker.title = $scope.eventsWLocation[i].eventName;
+              markers.push(marker);
+
+              // check if point is within bounds and adjust viewport if it is not
+              if(!($scope.googleMapObj.getGMap().getBounds().contains(point))) {
+                $scope.googleMapObj.getGMap().fitBounds($scope.googleMapObj.getGMap().getBounds().extend(point));
               }
             }
           }
+          $scope.markerObjs = $scope.markerObjs.concat(markers);
           // Activate ng-show for listview of search results next to map
           $scope.isSearch = true;
         },
