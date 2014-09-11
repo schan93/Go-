@@ -1,8 +1,9 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container">
-  <div class="row">
+  <div class="row" ng-show="enableNearby">
     <div class="col-md-12">
+      <h4>Nearby...</h4>
       <button type="button" class="btn btn-default" ng-model="selectedIcon" data-html="1" ng-options="icon.value as icon.label for icon in icons" data-trigger="click" data-animation="am-fade-and-slide-top" placeholder="Find events around me within a radius of..." bs-select>
         Action <span class="caret"></span>
       </button>
@@ -10,8 +11,10 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <p>Search bar doesn't have functionality for event searching. Just use the distance selection and click Search.</p>
-      <google-places location="location" coords="locationCoords"></google-places>
+      <div ng-show="enableSearch">
+        <h4>Or search in a different area...</h4>
+        <google-places ng-model="googlePlacesInput" location="location" coords="locationCoords"></google-places>
+      </div>
       <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
       <!-- <button type="button" class="btn btn-default" ng-click="displayMarkers()">Display Markers</button> -->
     </div>
