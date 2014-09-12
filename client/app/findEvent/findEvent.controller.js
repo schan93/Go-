@@ -50,7 +50,8 @@ angular.module('goApp')
     $scope.searchResults = [];
 
     $scope.selectedIcon = "";
-    $scope.icons = [{"value":5, "label":"5 miles"},
+    $scope.icons = [{"value":0, "label":"Select a distance..."},
+                    {"value":5, "label":"5 miles"},
                     {"value":10, "label":"10 miles"},
                     {"value":15, "label":"15 miles"},
                     {"value":20, "label":"20 miles"},
@@ -59,9 +60,10 @@ angular.module('goApp')
 
     $scope.isSearch = false;
 
-    // For ng-show/hide distance select and search bar
-    $scope.enableNearby = true;
-    $scope.enableSearch = true;
+    $scope.useSearch = false;
+    $scope.useNearby = false;
+
+    $scope.resizeMapListener;
 
     /*
      * Function definitions
@@ -111,7 +113,7 @@ angular.module('goApp')
     // response. On success, parses the data and filters it.
 
     // notes:
-    // 1. possibly could be cleaner using $scope.enableSearch and such.
+    // 1. possibly could be cleaner using $scope.useSearch and such.
     // 2. in the future can probably use distance selection with location search
     //    so you can set your own radius instead of defaulting to 10.
     // 3. windows are consistently inconsistent. THEORY: they sometimes don't
@@ -120,9 +122,16 @@ angular.module('goApp')
     //    radius 10, the markers from radius 5 will show up again obviously, but
     //    the windows won't work.
     $scope.doSearch = function() {
+      // console.log($scope.googleMapObj.getGMap().getBounds().getNorthEast().lat());
+      // console.log($scope.googleMapObj.getGMap().getBounds().getNorthEast().lng());
+      // console.log($scope.googleMapObj.getGMap().getBounds().getSouthWest().lat());
+      // console.log($scope.googleMapObj.getGMap().getBounds().getSouthWest().lng());
       // No search criteria has been entered, exit.
-      if($scope.enableNearby && $scope.enableSearch)
+      if(!($scope.useNearby || $scope.useSearch))
         return;
+
+      if($scope.isSearch)
+        google.maps.event.removeListener($scope.resizeMapListener);
 
       // if searching again, need to clear previous values
       $scope.parsed = [];
@@ -135,7 +144,7 @@ angular.module('goApp')
       // back at the end of doSearch().
       var geoMarker = $scope.markerObjs.shift();
       var origin = new google.maps.LatLng(geoMarker.latitude, geoMarker.longitude);
-      if($scope.enableSearch) {
+      if($scope.useSearch) {
         origin = new google.maps.LatLng($scope.locationCoords.latitude, $scope.locationCoords.longitude);
       }
 
@@ -167,10 +176,12 @@ angular.module('goApp')
           // might be more efficient way of doing this. I'm not sure what. but this
           // works.
           var newCenter = new google.maps.LatLng(geoMarker.latitude, geoMarker.longitude);
-          var distComp = $scope.selectedIcon;
-          if($scope.enableSearch) {
+          var distComp = 10;
+          if($scope.useSearch) {
             newCenter = new google.maps.LatLng($scope.locationCoords.latitude, $scope.locationCoords.longitude);
-            distComp = 10; // set radius to 10 for specific location search
+          }
+          if($scope.useNearby) {
+            distComp = $scope.selectedIcon; // set radius to 10 for specific location search
           }
           $scope.googleMapObj.getGMap().setCenter(newCenter);
           $scope.googleMapObj.getGMap().setZoom(19);
@@ -277,6 +288,11 @@ angular.module('goApp')
           markers.push(marker);
           $scope.markerObjs = markers;
           $scope.markerCount++;
+          $scope.resizeMapListener = google.maps.event.addListener($scope.googleMapObj.getGMap(), "idle", function() {
+            var center = $scope.googleMapObj.getGMap().getCenter();
+            google.maps.event.trigger($scope.googleMapObj.getGMap(), 'resize');
+            $scope.googleMapObj.getGMap().setCenter(center);
+          });
         });
       }, function() {
         $scope.handleNoGeolocation(true);
@@ -287,28 +303,28 @@ angular.module('goApp')
       $scope.handleNoGeolocation(false);
     }
 
-    // if any text is entered in the search bar, ng-hide distance select
+    // track if search bar is being used
     $scope.$watch(
       function() { return $scope.googlePlacesInput; },
       function(newValue, oldValue) {
         if(newValue !== oldValue) {
           if(newValue !== "")
-            $scope.enableNearby = false;
+            $scope.useSearch = true;
           else
-            $scope.enableNearby = true;
+            $scope.useSearch = false;
         }
       }
     );
 
-    // if a distance is selected, ng-hide search bar
+    // track if distance selection is being used
     $scope.$watch(
       function() { return $scope.selectedIcon; },
       function(newValue, oldValue) {
         if(newValue !== oldValue) {
-          if(newValue !== "")
-            $scope.enableSearch = false;
+          if(newValue !== "" && newValue !== 0)
+            $scope.useNearby = true;
           else
-            $scope.enableSearch = true;
+            $scope.useNearby = false;
         }
       }
     );
