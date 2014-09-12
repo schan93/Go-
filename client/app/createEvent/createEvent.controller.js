@@ -10,6 +10,7 @@ angular.module('goApp')
     $scope.date = new Date();
     $scope.submitted = false;
     $scope.location = "";
+    $scope.locationCoords = {};
     $scope.place ="";
     //Temporary variables because when we try to do Date.parse, our variables turn into dates which is not what we want
     $scope.temp = {
@@ -28,7 +29,9 @@ angular.module('goApp')
       'eventName': "",
       'attendees': [],
       'invited': [],
-      'creator': ""
+      'creator': "",
+      'eventLocationLat': 0,
+      'eventLocationLng': 0
     };
 
     $http.get('/api/users/me')
@@ -64,6 +67,9 @@ angular.module('goApp')
         isValid = false;
         console.log("Invalid time.");
       }
+      $scope.eventObj.eventLocation = $scope.location;
+      $scope.eventObj.eventLocationLat = $scope.locationCoords.latitude;
+      $scope.eventObj.eventLocationLng = $scope.locationCoords.longitude;
       if(isValid){
         $scope.eventObj.eventLocation = $scope.location;
         $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);

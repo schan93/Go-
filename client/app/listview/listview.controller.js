@@ -3,6 +3,7 @@
 angular.module('goApp')
   .controller('ListviewCtrl', function ($filter, Auth, $scope, $http, $location, listviewService, $routeParams, $cookieStore, $modal, User, $window) {
     $scope.location = "";
+    $scope.locationCoords = {};
     $scope.events = [];
     $scope.invitedFriends = [];
     $scope.individualEvent = {};
@@ -18,7 +19,9 @@ angular.module('goApp')
       'eventName': "",
       'attendees': [],
       'invited': [],
-      'creator': ""
+      'creator': "",
+      'eventLocationLat': 0,
+      'eventLocationLng': 0
     };  
     $scope.user = {
       'userAlreadyAttending': false
@@ -78,7 +81,12 @@ angular.module('goApp')
       //editEventModal.$promise.then(editEventModal.show);
     };
     $scope.hideEditEvent = function() {
-      $window.location.reload(); // used this function because the googlePlaces directive wasn't reloading
+      $scope.showEditEventPage = false;
+      $http.get('/api/events')
+        .success(function(data, status, headers, config) {
+          $scope.events = data;
+        });
+      //$window.location.reload(); // used this function because the googlePlaces directive wasn't reloading
                                  // correctly when I simply activated the ng-show again for the listview
       //editEventModal.$promise.then(editEventModal.hide);
     };
@@ -157,6 +165,11 @@ angular.module('goApp')
         $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
         $scope.eventObj.creator = $scope.currentUser.username;
 
+      if($scope.location !== "") {
+        $scope.eventObj.eventLocation = $scope.location;
+        $scope.eventObj.eventLocationLat = $scope.locationCoords.latitude;
+        $scope.eventObj.eventLocationLng = $scope.locationCoords.longitude;
+      }
 
         $http.put('/api/events/' + $scope.events[$scope.eventId]._id, $scope.eventObj)
         .success(function(data) {

@@ -13,6 +13,7 @@ angular.module('goApp', [
   'ui.bootstrap.timepicker',
   'ui.bootstrap.position',
   'dateParser'])
+  'google-maps'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
       .otherwise({
