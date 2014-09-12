@@ -12,7 +12,7 @@ angular.module('goApp', [
   'ui.bootstrap.dropdown',
   'ui.bootstrap.timepicker',
   'ui.bootstrap.position',
-  'dateParser'])
+  'dateParser',
   'google-maps'])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
