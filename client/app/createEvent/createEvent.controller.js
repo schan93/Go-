@@ -12,6 +12,9 @@ angular.module('goApp')
     $scope.location = "";
     $scope.locationCoords = {};
     $scope.place ="";
+    $scope.locationWrong = {
+      'wrong': false
+    };
     //Temporary variables because when we try to do Date.parse, our variables turn into dates which is not what we want
     $scope.temp = {
       'startDate': "",
@@ -42,6 +45,10 @@ angular.module('goApp')
 
     $scope.createForm = function(isValid){
       $scope.submitted = true;
+      if($scope.eventObj.eventLocation == "" || $scope.eventObj.eventLocation === null){
+        console.log("Requires a location");
+        $scope.locationWrong.wrong = true;
+      }
       var startMonth = parseInt($scope.eventObj.startDate.split("/")[0]);
       var startDay = parseInt($scope.eventObj.startDate.split("/")[1]);
       var startYear = parseInt($scope.eventObj.startDate.split("/")[2]);

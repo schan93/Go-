@@ -43,10 +43,10 @@
    <div class="form-group">
    </div>
 
-    <div class="form-group" ng-class="{ 'has-error' : createEventForm.location.$error.required && submitted}">
+    <div class="form-group" ng-class="{ 'has-error' : locationWrong.wrong && submitted}">
       <label>Location</label>
-      <google-places location="location" coords="locationCoords"></google-places>
-      <p ng-show="createEventForm.google_places_ac.$invalid && !createEventForm.google_places_ac.$pristine" class="help-block">A Location is required.</p>
+      <google-places location="location" coords="locationCoords" ng-model="eventObj.eventLocation"></google-places>
+      <p ng-show="locationWrong.wrong && submitted" class="help-block">A Location is required.</p>
     </div>
 
     <div class="form-group">

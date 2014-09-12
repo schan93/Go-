@@ -1,49 +1,54 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="container">
-  <div class="row" ng-show="enableNearby">
-    <div class="col-md-12">
-      <h4>Nearby...</h4>
-      <button type="button" class="btn btn-default" ng-model="selectedIcon" data-html="1" ng-options="icon.value as icon.label for icon in icons" data-trigger="click" data-animation="am-fade-and-slide-top" placeholder="Find events around me within a radius of..." bs-select>
+<div class="container-fluid" style="font-family: 'Lato', sans-serif;">
+  <div class="row">
+    <div class="col-md-6">
+      <h4>Search Nearby</h4>
+      <button type="button" class="btn btn-default form-control" ng-model="selectedIcon" data-html="1" ng-options="icon.value as icon.label for icon in icons" data-trigger="click" data-animation="am-fade-and-slide-top" placeholder="Find events around me within a radius of..." bs-select>
         Action <span class="caret"></span>
       </button>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div ng-show="enableSearch">
-        <h4>Or search in a different area...</h4>
+    <div class="col-md-6">
+        <h4>Search by area</h4>
         <google-places ng-model="googlePlacesInput" location="location" coords="locationCoords"></google-places>
-      </div>
-      <button ng-click="doSearch()" class="btn btn-large btn-primary">Search</button>
-      <!-- <button type="button" class="btn btn-default" ng-click="displayMarkers()">Display Markers</button> -->
+          <!-- <button type="button" class="btn btn-default" ng-click="displayMarkers()">Display Markers</button> -->
+    </div>
+    <div class="col-md-12">        
+      <br/>
+      <button ng-click="doSearch()" class="btn btn-primary form-control">Search</button>
     </div>
   </div>
   <div ng-class="{'row': true, 'expanded': isSearch}">
-    <div class="col-md-6" ng-show="isSearch">
+    <div class="col-md-3 col-md-offset-3" ng-show="isSearch">
       <table class="table table-striped table-hover"> 
         <thead>
           <tr>
-            <h3><i>We found these events for you...</i></h3>
+            <h3><i>Events found</i></h3>
           </tr>
         </thead>
-        <tbody data-link ="row" class="rowlink">
-          <tr ng-repeat="event in searchResults | filter:searchText">
-            <td><a href="/#/listview/{{event._id}}"><div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div></a></td>
-            <td>
-              <span class="eventName">{{event.eventName}}</span>
-              <span class="eventLocation">{{event.eventLocation}}</span>
-            </td>
-            <td class="rowlink-skip">
-              <span class="eventTime">{{event.startDate | date:'hh:mm a'}} - {{event.endDate | date:'hh:mm a'}}</span>
-              <span class="attendButton rowlink-skip"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event, $index)">Attend?</button></span>
-              <span class="rowlink-skip eventAttendees" bs-modal="modal" content-template="app/listview/viewAttendees.html" ng-click="getEvent(event)"><a href = "">Attendees:</a> {{event.attendees.length}}</span>
-            </td>
-          </tr>
-        </tbody>
+      <tbody data-link ="row" class="rowlink">
+        <tr ng-repeat="event in events | filter:searchText">
+          <td><a href="/#/listview/{{event._id}}"><!--<div class="date"><p> {{event.startDate | date: 'dd'}} <span> {{event.startDate | date: 'MMM' }}</span></p></div>--></a></td>
+          <td style="width:75%;">
+            <span class="eventName">{{event.eventName}}</span>
+            <div class="eventTime">{{event.startDate | date:'MMMM dd yyyy'}} @ {{event.startTime | date:'hh:mm a'}} &nbsp;&nbsp;–&nbsp;&nbsp;{{event.endDate | date:'MMMM dd yyyy'}} @ {{event.endTime | date:'hh:mm a'}}</div>
+            <span class="eventLocation">{{event.eventLocation}}</span>
+          </td>
+          <td class="rowlink-skip" style="width:25%;">
+            <span ng-show="currentUser.username === event.creator" style="position:relative;"><button type="button" class="btn btn-warning btn-sm" ng-click="editEvent(events.indexOf(event)); showEditEvent()"><span class="glyphicon glyphicon-pencil"></span></button></span>
+            <span ng-show="currentUser.username === event.creator"style="position:relative;"><button type="button" class="btn btn-danger btn-sm" ng-click="deleteEvent(event)"><span class="glyphicon glyphicon-trash"></span></button></span> 
+            <span style="position:relative;"><button type="button" class="btn btn-primary btn-sm" ng-click="attending(event)" ng-class="{'btn-default': !user.userAlreadyAttending, 'btn-success': user.userAlreadyAttending, 'disabled': user.userAlreadyAttending}">Attend?</button></span>
+            <div style="position:relative;" bs-modal="modal" content-template="app/listview/viewAttendees.html" ng-click="getEvent(event)"><a href = "">Attendees:</a> {{event.attendees.length}}</div>
+          </td>
+        </tr>
+      </tbody>
+
+
+
       </table>
     </div>
-    <div ng-class="{'col-md-12': !isSearch, 'col-md-6': isSearch}">
+    <br/>
+    <div ng-class="{'col-md-12': !isSearch, 'col-md-3': isSearch}">
       <div class="map_canvas">
         <google-map center="mapObj.center" options="mapObj.options" zoom="mapObj.zoom" pan="true" draggable="true" bounds="mapObj.bounds" control="googleMapObj">
           <markers models="markerObjs" coords="'self'" click="'onClick'">

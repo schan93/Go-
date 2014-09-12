@@ -47,13 +47,12 @@ angular.module('goApp')
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
-        console.log("Events: ", $scope.events);
         for(var i = 0; i < $scope.events.length; i++){
           for(var k = 0; k < $scope.events[i].attendees.length; k++){
             if($scope.currentUser.username === $scope.events[i].attendees[k])
               $scope.user.userAlreadyAttending = true;
           }
-        }//TODO: Find a way to see if u can make the attending button greenz
+        }
       });
 
     $scope.passUser = function(user){
