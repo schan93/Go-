@@ -95,6 +95,25 @@ angular.module('goApp')
     }
   };
 
+      $scope.deleteEvent = function(event) {
+      //$scope.events.splice($scope.events.indexOf(event), 1); 
+      //console.log("Delted: ", event);
+      var confirmDelete = confirm("Are you sure you want to delete this event?");
+      if(confirmDelete == true){
+        $http.delete('/api/events/' + $scope.events[$scope.events.indexOf(event)]._id)
+          .success(function(data) {
+            console.log("Success. Event " + $scope.events[$scope.events.indexOf(event)].eventName + " deleted.");
+          });
+        $http.get('/api/events')
+          .success(function(data, status, headers, config) {
+            $scope.events = data;
+          });
+        }
+        else{
+
+        }
+    }
+
 
 
   $scope.editEvent = function(id) {
