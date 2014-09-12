@@ -3,13 +3,19 @@
 angular.module('goApp')
 .controller('UserProfileCtrl', function ($scope, $cookieStore, User, Auth, $http, listviewService, $q, $routeParams) {
 
-  $scope.username = $routeParams.username;
-  $scope.user = {};
+  $scope.currentUsername = $routeParams.username;
+  $scope.currentUser = {};
   $scope.individualEvent = {};
+  $scope.user = {
+    'userAlreadyAttending': false
+  };
   $scope.showEditEventPage = false;
   $scope.friend = {
     'friendText': "Friend me!",
     'friendRequest': false
+  };
+  $scope.showFriendButton = {
+    'show': false
   };
   $scope.eventId = "";
   $scope.eventObj = {
@@ -33,31 +39,57 @@ angular.module('goApp')
   };
 
   $http.get('/api/users/me')
-    .then(function(result){
-      $scope.user = result.data;
-      console.log("User: ", $scope.user);
-  });
-
-  $http.get('/api/users/users/' + $scope.username)
+  .then(function(result){
+    $scope.currentUser = result.data;
+    $http.get('/api/users/users/' + $scope.currentUsername)
     .success(function(data, status, headers, config){
       //Get the users profile based on whoever you click
       $scope.currentUserViewing = data;
       $scope.realCurrentUserViewing = data;
+      for(var i = 0; i < $scope.currentUser.friends.length; i++){
+        if($scope.realCurrentUserViewing.friends[i].username === $scope.currentUser.username){
+          $scope.showFriendButton.show = true;
+        }
+      }
       $http.get('/api/users/events/' + $scope.currentUserViewing._id)
       .success(function(data, status, headers, config){
           //Used for displaying the events that an individual is going to (we need to populate them)
           $scope.currentUserViewing = data;
+          console.log($scope.currentUserViewing);
+          for(var i = 0; i < $scope.currentUserViewing.eventsAttending.length; i++){
+            for(var k = 0; k < $scope.currentUserViewing.eventsAttending[i].attendees.length; k++)
+            if($scope.currentUser.username === $scope.currentUserViewing.eventsAttending[i].attendees[k])
+              $scope.user.userAlreadyAttending = true;
+          }
         }); 
     });
+  });
+
+
+    $scope.attending = function(event){
+      $scope.user.userAlreadyAttending = true;
+      if($cookieStore.get('token')){
+        $scope.currentUser = Auth.getCurrentUser();
+      }
+      $http.put('/api/events/' + event._id, $scope.currentUser)
+        .success(function(data) {
+          console.log("Success. Event " + event.eventName + " was edited.");
+        });
+      $http.put('/api/users/' + $scope.currentUser._id, event)
+        .success(function(data){
+          console.log("Success. User " + $scope.currentUser.name);
+        });
+    };
+
 
 
   $scope.alreadyFreinds = function(){
     console.log("Friends!");
-    for(var i = 0; i < $scope.user.friends.length; i++){
-          console.log("test:", $scope.user.friends[i]);
+    for(var i = 0; i < $scope.currentUser.friends.length; i++){
+          console.log("test:", $scope.currentUser.friends[i]);
           console.log("Real current: ", $scope.realCurrentUserViewing.username);
-      if($scope.user.friends[i].username === $scope.realCurrentUserViewing.username && 
-        $scope.user.friends[i].requested == true && $scope.user.friends[i].pending == true){
+      if($scope.currentUser.friends[i].username === $scope.realCurrentUserViewing.username && 
+        $scope.currentUser.friends[i].requested == true && $scope.currentUser.friends[i].pending == true){
         return true;
       }
     }
@@ -78,18 +110,18 @@ angular.module('goApp')
     $scope.friend.friendRequest = true;
     $scope.friend.friendText = "Friend Request Sent!"
 
-    $http.put('/api/users/' + $scope.user._id + "/" + $scope.user.username, $scope.realCurrentUserViewing)
+    $http.put('/api/users/' + $scope.currentUser._id + "/" + $scope.currentUser.username, $scope.realCurrentUserViewing)
     .success(function(data) {
-      console.log("Success. Friend " + $scope.user.username + " has requested to be friends with " + 
+      console.log("Success. Friend " + $scope.currentUser.username + " has requested to be friends with " + 
         $scope.realCurrentUserViewing.username);
     });
 
     $http.put('/api/users/friends/' + $scope.realCurrentUserViewing._id + "/" + 
-      $scope.realCurrentUserViewing.username, $scope.user)
+      $scope.realCurrentUserViewing.username, $scope.currentUser)
     .success(function(data) {
       console.log("Success. Friend " + $scope.realCurrentUserViewing.username + 
         " has requested to be friends with " + 
-        $scope.user.username);
+        $scope.currentUser.username);
     }); 
   };
 

@@ -20,6 +20,9 @@ angular.module('goApp')
       'invited': [],
       'creator': ""
     };  
+    $scope.user = {
+      'userAlreadyAttending': false
+    };
     
     $scope.currentUser = {};
 
@@ -41,6 +44,13 @@ angular.module('goApp')
     $http.get('/api/events')
       .success(function(data, status, headers, config) {
         $scope.events = data;
+        console.log("Events: ", $scope.events);
+        for(var i = 0; i < $scope.events.length; i++){
+          for(var k = 0; k < $scope.events[i].attendees.length; k++){
+            if($scope.currentUser.username === $scope.events[i].attendees[k])
+              $scope.user.userAlreadyAttending = true;
+          }
+        }//TODO: Find a way to see if u can make the attending button greenz
       });
 
     $scope.passUser = function(user){
@@ -75,19 +85,26 @@ angular.module('goApp')
 
     // for development purposes
     $scope.deleteEvent = function(event) {
-      $scope.events.splice($scope.events.indexOf(event), 1);
-      console.log("Delted: ", event);
-      /*$http.delete('/api/events/' + $scope.events[id]._id)
-        .success(function(data) {
-          console.log("Success. Event " + $scope.events[id].eventName + " deleted.");
-        });*/
-      /*$http.get('/api/events')
-        .success(function(data, status, headers, config) {
-          $scope.events = data;
-        });*/
+      //$scope.events.splice($scope.events.indexOf(event), 1); 
+      //console.log("Delted: ", event);
+      var confirmDelete = confirm("Are you sure you want to delete this event?");
+      if(confirmDelete == true){
+        $http.delete('/api/events/' + $scope.events[$scope.events.indexOf(event)]._id)
+          .success(function(data) {
+            console.log("Success. Event " + $scope.events[$scope.events.indexOf(event)].eventName + " deleted.");
+          });
+        $http.get('/api/events')
+          .success(function(data, status, headers, config) {
+            $scope.events = data;
+          });
+        }
+        else{
+
+        }
     }
 
-    $scope.attending = function(event, id){
+    $scope.attending = function(event){
+      $scope.user.userAlreadyAttending = true;
       if($cookieStore.get('token')){
         $scope.currentUser = Auth.getCurrentUser();
       }
@@ -99,7 +116,7 @@ angular.module('goApp')
         .success(function(data){
           console.log("Success. User " + $scope.currentUser.name);
         });
-    }
+    };
     // The only thing that doesn't work right now for editEvent has to do
     // with the googlePlaces custom directive. The field does not automatically
     // fill in if you put $scope.eventObj.eventLocation as the ng-model. As a

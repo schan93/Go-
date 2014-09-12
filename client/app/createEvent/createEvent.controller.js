@@ -39,14 +39,26 @@ angular.module('goApp')
 
     $scope.createForm = function(isValid){
       $scope.submitted = true;
+      var startMonth = parseInt($scope.eventObj.startDate.split("/")[0]);
+      var startDay = parseInt($scope.eventObj.startDate.split("/")[1]);
+      var startYear = parseInt($scope.eventObj.startDate.split("/")[2]);
+      var endMonth = parseInt($scope.eventObj.endDate.split("/")[0]);
+      var endDay = parseInt($scope.eventObj.endDate.split("/")[1]);
+      var endYear = parseInt($scope.eventObj.endDate.split("/")[2]);
       $scope.temp.startDate = Date.parse($scope.eventObj.startDate);
       $scope.temp.endDate = Date.parse($scope.eventObj.endDate);
-      if($scope.temp.startDate < $scope.date || $scope.temp.endDate < $scope.temp.startDate
-        || isNaN($scope.temp.startDate || isNaN($scope.temp.endDate))){
+        //TODO: Check for PAST dates like in the here thing
+      var currentDateYear = $scope.date.getFullYear().toString().substr(2,2);
+      var currentMonth = $scope.date.getMonth() + 1;
+
+      if((startDay < $scope.date.getDate() && startMonth < currentMonth && startYear < currentDateYear)
+        || isNaN($scope.temp.startDate) || isNaN($scope.temp.endDate) || (endDay < $scope.date.getDate() &&
+          endMonth < currentMonth && endYear < currentDateYear)){
         isValid = false;
         console.log("Invalid date.")
       }
-      else if($scope.eventObj.startTime > $scope.eventObj.endTime || 
+      else if($scope.eventObj.startTime > $scope.eventObj.endTime &&
+       (startDay === endDay && startMonth === endMonth && startYear === endYear)|| 
         $scope.eventObj.startTime === $scope.eventObj.endTime ||
         $scope.eventObj.startTime === undefined || $scope.eventObj.endTime === undefined){
         isValid = false;
@@ -56,6 +68,7 @@ angular.module('goApp')
         $scope.eventObj.eventLocation = $scope.location;
         $scope.eventObj.startDate = Date.parse($scope.eventObj.startDate);
         $scope.eventObj.creator = $scope.currentUser.username;
+        $scope.eventObj.attendees.push($scope.eventObj.creator);
         $http.post('/api/events', $scope.eventObj).
         success(function(data){
           console.log("Data: ", data);

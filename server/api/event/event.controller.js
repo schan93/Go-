@@ -84,14 +84,7 @@ exports.update = function(req, res) {
 
 // Deletes a event from the DB.
 exports.destroy = function(req, res) {
-  Event.findById(req.params.id, function (err, event) {
-    if(err) { return handleError(res, err); }
-    if(!event) { return res.send(404); }
-    event.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
-  });
+  Event.findById(req.params.id).remove().exec();
 };
 
 function handleError(res, err) {

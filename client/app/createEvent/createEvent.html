@@ -26,8 +26,8 @@
       </div>
 
        <!-- Event End -->
-       <div class="form-group" style="padding-left:7px" ng-class="{ 'has-error' : (createEventForm.endDate.$error.required && submitted)}">
-         <input placeholder="End Date" type="text" name="endDate" ng-model="eventObj.endDate" class="form-control" date-parser="shortDate" required/>
+       <div class="form-group" ng-class="{ 'has-error' : (createEventForm.endDate.$error.required && submitted)}">
+         <input placeholder="End Date" data-mask="99/99/99" type="text" name="endDate" ng-model="eventObj.endDate" class="form-control" date-parser="shortDate" required/>
        </div>
        <div class="form-group" ng-class="{ 'has-error' : (createEventForm.endTime.$error.required && submitted)}">  
          <input type="text" size="17" name="endTime" ng-model="eventObj.endTime" placeholder="Start Time" dn-timepicker class="form-control" required/>
