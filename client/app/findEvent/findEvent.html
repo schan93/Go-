@@ -1,7 +1,7 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
 <div class="container-fluid" style="font-family: 'Lato', sans-serif;">
-  <div class="row">
+  <div class="row" ng-show="geolocationReady">
     <div class="col-md-6">
       <h4>Search Nearby</h4>
       <button type="button" class="btn btn-default form-control" ng-model="selectedIcon" data-html="1" ng-options="icon.value as icon.label for icon in icons" data-trigger="click" data-animation="am-fade-and-slide-top" placeholder="Select a distance..." bs-select>
@@ -19,7 +19,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6" ng-show="isSearch">
+    <div id="list" class="col-md-6" ng-show="isSearch">
       <table class="table table-striped table-hover"> 
         <thead>
           <tr>
@@ -45,7 +45,7 @@
       </table>
     </div>
     <br/>
-    <div ng-class="{'col-md-12': !isSearch, 'col-md-6': isSearch}">
+    <div id="map-container" class="col-md-12">
       <div class="map_canvas">
         <google-map center="mapObj.center" options="mapObj.options" zoom="mapObj.zoom" pan="true" draggable="true" bounds="mapObj.bounds" control="googleMapObj">
           <markers models="markerObjs" coords="'self'" click="'onClick'">

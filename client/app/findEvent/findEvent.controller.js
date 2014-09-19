@@ -63,7 +63,8 @@ angular.module('goApp')
     $scope.useSearch = false;
     $scope.useNearby = false;
 
-    $scope.resizeMapListener;
+    // $scope.resizeMapListener;
+    $scope.geolocationReady = false;
 
     /*
      * Function definitions
@@ -122,16 +123,15 @@ angular.module('goApp')
     //    radius 10, the markers from radius 5 will show up again obviously, but
     //    the windows won't work.
     $scope.doSearch = function() {
-      // console.log($scope.googleMapObj.getGMap().getBounds().getNorthEast().lat());
-      // console.log($scope.googleMapObj.getGMap().getBounds().getNorthEast().lng());
-      // console.log($scope.googleMapObj.getGMap().getBounds().getSouthWest().lat());
-      // console.log($scope.googleMapObj.getGMap().getBounds().getSouthWest().lng());
       // No search criteria has been entered, exit.
       if(!($scope.useNearby || $scope.useSearch))
         return;
 
-      if($scope.isSearch)
-        google.maps.event.removeListener($scope.resizeMapListener);
+      // Activate ng-show for listview of search results next to map
+      $scope.isSearch = true;
+
+      // if($scope.isSearch)
+      //   google.maps.event.removeListener($scope.resizeMapListener);
 
       // if searching again, need to clear previous values
       $scope.parsed = [];
@@ -148,73 +148,82 @@ angular.module('goApp')
         origin = new google.maps.LatLng($scope.locationCoords.latitude, $scope.locationCoords.longitude);
       }
 
-      $scope.promise = calculateDistance(origin);
-      $scope.promise.then(
-        // status is OK
-        function(response) {
-          var origins = response.originAddresses;
-          var destinations = response.destinationAddresses;
+      calculateDistance(origin)
+        .then(
+          // status is OK
+          function(response) {
+            var origins = response.originAddresses;
+            var destinations = response.destinationAddresses;
 
-          // Parse data, refer to GMaps DM example for data
-          // structure of response.
-          for (var i = 0; i < origins.length; i++) {
-            var results = response.rows[i].elements;
-            for (var j = 0; j < results.length; j++) {
-              var element = results[j];
-              var data = new Object();
-              // convert to miles. if using meters, delete constant.
-              data.distanceValue = element.distance.value/1609.34;
-              data.distanceText = element.distance.text;
-              data.duration = element.duration.text;
-              data.from = origins[i];
-              data.to = destinations[j];
-              $scope.parsed.push(data);
-            }
-          }
-
-          // reset center and zoom all the way in so map can resize accordingly.
-          // might be more efficient way of doing this. I'm not sure what. but this
-          // works.
-          var newCenter = new google.maps.LatLng(geoMarker.latitude, geoMarker.longitude);
-          var distComp = 10;
-          if($scope.useSearch) {
-            newCenter = new google.maps.LatLng($scope.locationCoords.latitude, $scope.locationCoords.longitude);
-          }
-          if($scope.useNearby) {
-            distComp = $scope.selectedIcon; // set radius to 10 for specific location search
-          }
-          $scope.googleMapObj.getGMap().setCenter(newCenter);
-          $scope.googleMapObj.getGMap().setZoom(19);
-
-          // Extract events that match search criteria (distance)
-          var markers = [];
-          for(var i = 0; i < $scope.parsed.length; i++) {
-            if((distComp < 51 && $scope.parsed[i].distanceValue <= distComp)
-              || (distComp >= 51 && $scope.parsed[i].distanceValue > distComp - 1)) {
-              $scope.searchResults.push($scope.eventsWLocation[i]);
-
-              var latitude = $scope.eventsWLocation[i].eventLocationLat,
-                  longitude = $scope.eventsWLocation[i].eventLocationLng;
-              var point = new google.maps.LatLng(latitude, longitude);
-              var marker = $scope.createMarker(++$scope.markerCount, latitude, longitude);
-              marker.title = $scope.eventsWLocation[i].eventName;
-              markers.push(marker);
-
-              // check if point is within bounds and adjust viewport if it is not
-              if(!($scope.googleMapObj.getGMap().getBounds().contains(point))) {
-                $scope.googleMapObj.getGMap().fitBounds($scope.googleMapObj.getGMap().getBounds().extend(point));
+            // Parse data, refer to GMaps DM example for data
+            // structure of response.
+            for (var i = 0; i < origins.length; i++) {
+              var results = response.rows[i].elements;
+              for (var j = 0; j < results.length; j++) {
+                var element = results[j];
+                var data = new Object();
+                // convert to miles. if using meters, delete constant.
+                data.distanceValue = element.distance.value/1609.34;
+                data.distanceText = element.distance.text;
+                data.duration = element.duration.text;
+                data.from = origins[i];
+                data.to = destinations[j];
+                $scope.parsed.push(data);
               }
             }
+
+            var newCenter = new google.maps.LatLng(geoMarker.latitude, geoMarker.longitude);
+            var distComp = 10;
+            if($scope.useSearch) {
+              newCenter = new google.maps.LatLng($scope.locationCoords.latitude, $scope.locationCoords.longitude);
+            }
+            if($scope.useNearby) {
+              distComp = $scope.selectedIcon; // set radius to 10 for specific location search
+            }
+            // $scope.googleMapObj.getGMap().setCenter(newCenter);
+            // $scope.googleMapObj.getGMap().setZoom(19);
+
+            // Extract events that match search criteria (distance)
+            var markers = [];
+            var bounds = new google.maps.LatLngBounds();
+            bounds.extend(newCenter);
+            for(var i = 0; i < $scope.parsed.length; i++) {
+              if((distComp < 51 && $scope.parsed[i].distanceValue <= distComp)
+                || (distComp >= 51 && $scope.parsed[i].distanceValue > distComp - 1)) {
+                $scope.searchResults.push($scope.eventsWLocation[i]);
+
+                var latitude = $scope.eventsWLocation[i].eventLocationLat,
+                    longitude = $scope.eventsWLocation[i].eventLocationLng;
+                var point = new google.maps.LatLng(latitude, longitude);
+                var marker = $scope.createMarker(++$scope.markerCount, latitude, longitude);
+                marker.title = $scope.eventsWLocation[i].eventName;
+                markers.push(marker);
+
+                // check if point is within bounds and adjust viewport if it is not
+                // if(!($scope.googleMapObj.getGMap().getBounds().contains(point))) {
+                //   $scope.googleMapObj.getGMap().fitBounds($scope.googleMapObj.getGMap().getBounds().extend(point));
+                // }
+                if(!(bounds.contains(point))) {
+                  bounds.extend(point);
+                }
+              }
+            }
+            // Manually change div width and trigger "resize" event on map object
+            if($scope.isSearch) {
+              $("#map-container").removeClass("col-md-12");
+              $("#map-container").addClass("col-md-6");
+              var center = $scope.googleMapObj.getGMap().getCenter();
+              google.maps.event.trigger($scope.googleMapObj.getGMap(), 'resize');
+              $scope.googleMapObj.getGMap().setCenter(center);
+            }
+            $scope.googleMapObj.getGMap().fitBounds(bounds);
+            $scope.markerObjs = $scope.markerObjs.concat(markers);
+          },
+          // status is not OK
+          function(status) {
+            alert("DistanceMatrixStatus error: " + status);
           }
-          $scope.markerObjs = $scope.markerObjs.concat(markers);
-          // Activate ng-show for listview of search results next to map
-          $scope.isSearch = true;
-        },
-        // status is not OK
-        function(status) {
-          alert("DistanceMatrixStatus error: " + status);
-        }
-      );
+        );
 
       // push back geolocation marker
       $scope.markerObjs.unshift(geoMarker);
@@ -288,11 +297,12 @@ angular.module('goApp')
           markers.push(marker);
           $scope.markerObjs = markers;
           $scope.markerCount++;
-          $scope.resizeMapListener = google.maps.event.addListener($scope.googleMapObj.getGMap(), "idle", function() {
-            var center = $scope.googleMapObj.getGMap().getCenter();
-            google.maps.event.trigger($scope.googleMapObj.getGMap(), 'resize');
-            $scope.googleMapObj.getGMap().setCenter(center);
-          });
+          // $scope.resizeMapListener = google.maps.event.addListener($scope.googleMapObj.getGMap(), "idle", function() {
+          //   var center = $scope.googleMapObj.getGMap().getCenter();
+          //   google.maps.event.trigger($scope.googleMapObj.getGMap(), 'resize');
+          //   $scope.googleMapObj.getGMap().setCenter(center);
+          // });
+          $scope.geolocationReady = true;
         });
       }, function() {
         $scope.handleNoGeolocation(true);
