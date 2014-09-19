@@ -11,7 +11,6 @@ angular.module('goApp')
       if(form.$valid) {
         Auth.login({
           username: $scope.user.username,
-          email: $scope.user.email,
           password: $scope.user.password
         })
         .then( function() {

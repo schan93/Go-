@@ -23,9 +23,7 @@ angular.module('goApp')
       'eventLocationLat': 0,
       'eventLocationLng': 0
     };  
-    $scope.user = {
-      'userAlreadyAttending': false
-    };
+    $scope.userAlreadyAttending = [];
     
     $scope.currentUser = {};
 
@@ -48,9 +46,10 @@ angular.module('goApp')
       .success(function(data, status, headers, config) {
         $scope.events = data;
         for(var i = 0; i < $scope.events.length; i++){
-          for(var k = 0; k < $scope.events[i].attendees.length; k++){
-            if($scope.currentUser.username === $scope.events[i].attendees[k])
-              $scope.user.userAlreadyAttending = true;
+          for(var k = 0; k < $scope.events.attendees.length; k++){
+            if($scope.events[i].attendees[k] === $scope.currentUser.username){
+              $scope.user[i].alreadyAttending = true;
+            }
           }
         }
       });
@@ -84,6 +83,7 @@ angular.module('goApp')
       $http.get('/api/events')
         .success(function(data, status, headers, config) {
           $scope.events = data;
+          console.log("Events: ", $scope.events);
         });
       //$window.location.reload(); // used this function because the googlePlaces directive wasn't reloading
                                  // correctly when I simply activated the ng-show again for the listview

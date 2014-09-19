@@ -1,30 +1,48 @@
 'use strict';
 
 angular.module('goApp')
-  .controller('MainCtrl', function ($scope, $http, Auth, $location, $window, $modal) {
-    var loginModal = $modal({title: 'Login', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/loginModal.html', show: false});
-    var signupModal = $modal({title: 'Sign Up', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/signupModal.html', show: false});
+.controller('MainCtrl', function ($scope, $http, Auth, $location, $window, $modal) {
+  var loginModal = $modal({title: 'Login', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/loginModal.html', show: false});
+  var signupModal = $modal({title: 'Sign Up', scope: $scope, animation: 'am-fade-and-slide-top', template: 'app/main/signupModal.html', show: false});
 
-    $scope.showLogin = function() {
-      loginModal.$promise.then(loginModal.show);
-    };
-    $scope.hideLogin = function() {
-      loginModal.$promise.then(loginModal.hide);
-    };
+  $scope.showLogin = function() {
+    $scope.submitted = false;
+    $scope.user.username= "";
+    $scope.user.password= "";
+    $scope.user.email= "";
+    loginModal.$promise.then(loginModal.show);
+  };
+  $scope.hideLogin = function() {
+    loginModal.$promise.then(loginModal.hide);
+  };
 
-    $scope.showSignup = function() {
-      signupModal.$promise.then(signupModal.show);
-    };
-    $scope.hideSignup = function() {
-      signupModal.$promise.then(signupModal.hide);
-    };
+  $scope.showSignup = function() {
+    signupModal.$promise.then(signupModal.show);
+    $scope.user.name = "";
+    $scope.user.email= "";
+    $scope.user.username= "";
+    $scope.user.password= "";
+    $scope.submitted = false;
+  };
+  $scope.hideSignup = function() {
+    signupModal.$promise.then(signupModal.hide);
+  };
 
-    $scope.user = {};
-    $scope.errors = {};
+  $scope.user = {};
+  $scope.errors = {};
 
-    $scope.login = function(form) {
-      $scope.submitted = true;
 
+  $scope.login = function(form) {
+    var httpPromise = $http.get('/api/users/user/username/email/' + $scope.user.username)
+    .success(function(data){
+      return data;
+    });
+
+    $scope.submitted = true;
+
+    httpPromise.then(function(data) {
+      console.log("Data: ", data);
+      $scope.user.email = data.data;
       if(form.$valid) {
         Auth.login({
           username: $scope.user.username,
@@ -34,10 +52,6 @@ angular.module('goApp')
         .then( function() {
           // Logged in, redirect to home
           loginModal.hide();
-          $scope.user.name = "";
-          $scope.user.email= "";
-          $scope.user.username= "";
-          $scope.user.password= "";
           $location.path('/');
         })
         .catch( function(err) {
@@ -45,7 +59,8 @@ angular.module('goApp')
           $location.path('/');
         });
       }
-    };
+    });
+  };
 
     $scope.loginOauth = function(provider) {
       $window.location.href = '/auth/' + provider;
@@ -64,10 +79,6 @@ angular.module('goApp')
         .then( function() {
           // Account created, redirect to home
           signupModal.hide();
-          $scope.user.name = "";
-          $scope.user.email= "";
-          $scope.user.username= "";
-          $scope.user.password= "";
           $location.path('/');
         })
         .catch( function(err) {

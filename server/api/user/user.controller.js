@@ -24,11 +24,20 @@ exports.index = function(req, res) {
 };
 
 exports.getUserId = function(req, res) {
+  console.log("Req Params: ", req.params.username);
   User.findOne({'username': req.params.username}, function (err, user){
     if(err) return res.send(500, err);
     res.send(user);
   });
 };
+
+exports.getEmail = function(req, res) {
+  User.findOne({'username': req.params.username}, function (err, user){
+    if(err) return res.send(500, err);
+    console.log("User: ", user);
+    res.send(user.email);
+  });
+}
 
 exports.getInvitedEvents = function(req, res) {
   User.findById(req.params.id).populate('eventsInvited').exec(function(err, events){

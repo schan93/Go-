@@ -8,7 +8,7 @@ angular.module('goApp')
       // require: 'ngModel',
       // transclude:true,
       scope: {ngModel:'=?', location:'=', coords:'=?'},
-      template: '<input id="google_places_ac" class="form-control" name="google_places_ac" input="text" required/>',
+      template: '<input id="google_places_ac" class="form-control" name="google_places_ac" input="text"/>',
       link: function($scope, elm, attrs){
         $scope.coords = {
           latitude: 0,

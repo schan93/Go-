@@ -38,33 +38,40 @@ angular.module('goApp')
     //editEventModal.$promise.then(editEventModal.show);
   };
 
-  $http.get('/api/users/me')
-  .then(function(result){
-    $scope.currentUser = result.data;
+  var getCurrentUser = $http.get('/api/users/me')
+  .success(function(result){
+    return result;
+  });
+
+  var showFriendsButton = getCurrentUser.then(function(data){
+    $scope.currentUser = data.data;
     $http.get('/api/users/users/' + $scope.currentUsername)
-    .success(function(data, status, headers, config){
-      //Get the users profile based on whoever you click
-      $scope.currentUserViewing = data;
-      $scope.realCurrentUserViewing = data;
-      for(var i = 0; i < $scope.currentUser.friends.length; i++){
-        if($scope.realCurrentUserViewing.friends[i].username === $scope.currentUser.username){
-          $scope.showFriendButton.show = true;
-        }
-      }
+      .success(function(data, status, headers, config){
+        //Get the users profile based on whoever you click
+        $scope.currentUserViewing = data;
+        $scope.realCurrentUserViewing = data;  
+        for(var i = 0; i < data.friends.length; i++){
+          if(data.friends[i].username === $scope.currentUser.username){
+            $scope.showFriendButton.show = true;
+            break;
+          }
+        }      
+      }).then(function(){
       $http.get('/api/users/events/' + $scope.currentUserViewing._id)
       .success(function(data, status, headers, config){
           //Used for displaying the events that an individual is going to (we need to populate them)
           $scope.currentUserViewing = data;
           console.log($scope.currentUserViewing);
           for(var i = 0; i < $scope.currentUserViewing.eventsAttending.length; i++){
-            for(var k = 0; k < $scope.currentUserViewing.eventsAttending[i].attendees.length; k++)
-            if($scope.currentUser.username === $scope.currentUserViewing.eventsAttending[i].attendees[k])
-              $scope.user.userAlreadyAttending = true;
+            for(var k = 0; k < $scope.currentUserViewing.eventsAttending[i].attendees.length; k++){
+              if($scope.currentUser.username === $scope.currentUserViewing.eventsAttending[i].attendees[k]){
+                $scope.user.userAlreadyAttending = true;
+              }
+            } 
           }
         }); 
     });
   });
-
 
     $scope.attending = function(event){
       $scope.user.userAlreadyAttending = true;
@@ -126,6 +133,7 @@ angular.module('goApp')
 
   //Request friend
   $scope.friendMe = function(){
+    console.log("Current User: ", $scope.currentUser);
     $scope.friend.friendRequest = true;
     $scope.friend.friendText = "Friend Request Sent!"
 

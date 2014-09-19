@@ -2,7 +2,7 @@
 
 angular.module('goApp')
   .controller('SignupCtrl', function ($scope, Auth, $location) {
-    $scope.user = {};
+    $scope.signupUser = {};
     $scope.errors = {};
 
     $scope.register = function(form) {
@@ -10,10 +10,10 @@ angular.module('goApp')
 
       if(form.$valid) {
         Auth.createUser({
-          name: $scope.user.name,
-          email: $scope.user.email,
-          username: $scope.user.username,
-          password: $scope.user.password
+          name: $scope.signupUser.name,
+          email: $scope.signupUser.email,
+          username: $scope.signupUser.username,
+          password: $scope.signupUser.password
         })
         .then( function() {
           // Account created, redirect to home

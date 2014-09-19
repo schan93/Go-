@@ -19,7 +19,6 @@ angular.module('goApp')
       login: function(user, callback) {
         var cb = callback || angular.noop;
         var deferred = $q.defer();
-
         $http.post('/auth/local', {
           username: user.username,
           email: user.email,
@@ -32,6 +31,7 @@ angular.module('goApp')
           return cb();
         }).
         error(function(err) {
+          console.log("Error: ", err);
           this.logout();
           deferred.reject(err);
           return cb(err);

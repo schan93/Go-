@@ -6,17 +6,13 @@ angular.module('goApp')
 	$scope.currentUser = {};
 	$scope.events = [];
 
-
-	$http.get('/api/users/me')
-	  .then(function(result){
-	    $scope.currentUser = result.data;
-	    $http.get('/api/users/invited/events/' + $scope.currentUser._id)
-	      .success(function(data){
-	      	$scope.events = data;
-	      });
+	var getCurrentUser = $http.get('/api/users/me')
+	.success(function(data){
+		console.log("Data: ", data);
+		$scope.currentUser = data;
+		$http.get('/api/users/invited/events/' + $scope.currentUser._id)
+		.success(function(data){
+			$scope.events = data;
+		});
 	});
-
-
-
-
 });

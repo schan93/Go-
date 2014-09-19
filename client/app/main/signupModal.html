@@ -29,13 +29,12 @@
 
                 <input type="text" name="username" class="form-control" ng-model="user.username"
                        required
+                       ng-minlength="3"
                        mongoose-error/>
-                <p class="help-block" ng-show="form.username.$error.username && submitted">
-                  Doesn't look like a valid username.
-                </p>
-                <p class="help-block" ng-show="form.username.$error.required && submitted">
-                  What's your username?
-                </p>
+                  <p class="help-block"
+                     ng-show="(form.username.$error.minlength || form.username.$error.required) && submitted">
+                    Username must be at least 3 characters.
+                  </p>
                 <p class="help-block" ng-show="form.username.$error.mongoose">
                   {{ errors.username }}
                 </p>
