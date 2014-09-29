@@ -42,17 +42,30 @@ angular.module('goApp')
  
     $scope.usersAttendingTest = {};
     //Getting All Events
-    $http.get('/api/events')
-      .success(function(data, status, headers, config) {
-        $scope.events = data;
-        for(var i = 0; i < $scope.events.length; i++){
-          for(var k = 0; k < $scope.events.attendees.length; k++){
-            if($scope.events[i].attendees[k] === $scope.currentUser.username){
-              $scope.user[i].alreadyAttending = true;
-            }
-          }
+
+
+
+  var getCurrentUser = $http.get('/api/users/me')
+  .success(function(result){
+    return result;
+  });
+
+  $http.get('/api/events')
+    .success(function(data){
+      $scope.events = data;
+  });
+
+  /*getEvents.then(function(data){
+    $scope.events = data.data;
+    console.log("$scope.events:", $scope.events[0]);
+    for(var i = 0; i < $scope.events.length; i++){
+      for(var k = 0; k < $scope.events[i].attendees.length; k++){
+        if($scope.events[i].attendees[k] === $scope.currentUser.username){
+          $scope.user[i].alreadyAttending = true;
         }
-      });
+      }
+    }
+  });*/
 
     $scope.passUser = function(user){
       listviewFactory.setUser(user);
