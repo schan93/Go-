@@ -15,13 +15,17 @@ For MAC OSX Users:
 Use Homebrew to install these missing packages. Instructions are as follows:
 
 To install Homebrew:
+
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
 brew doctor
 
 To install ruby:
+
 brew install ruby
 
 To install SASS:
+
 Navigate to where you installed ruby (mine was /usr/local/Cellar/ruby/<Your version>) and do:
 gem install sass
 
