@@ -3,7 +3,9 @@ This is a MEAN stack project using Yeoman and the angular-fullstack generator fo
 In order to run the program, make sure you have the following programs installed and depending on your computer:
 
 MongoDB from http://www.mongodb.org/
+
 Node.js from http://nodejs.org/
+
 Ruby from https://www.ruby-lang.org/en/
 
 Note: Ruby and a gem depencency SASS must be installed and in your PATH for the project to compile correctly.
